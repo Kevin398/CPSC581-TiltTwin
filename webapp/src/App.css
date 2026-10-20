@@ -1,0 +1,131 @@
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.app {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-header {
+  margin-bottom: 20px;
+}
+
+.app-header h1 {
+  margin: 0 0 8px;
+}
+
+.app-header p {
+  margin: 0;
+  color: #94a3b8;
+}
+
+.role-switcher {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.role-switcher button {
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.role-switcher button[aria-pressed="true"] {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+.workspace {
+  position: relative;
+  width: 100%;
+  height: min(70vh, 600px);
+  min-height: 380px;
+  overflow: hidden;
+  border: 1px solid #334155;
+  border-radius: 18px;
+  background: #16243a;
+}
+
+.rotation-panel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.rotation-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(3, 44px);
+  gap: 24px;
+  place-items: center;
+}
+
+.rotation-pad button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #64748b;
+  border-radius: 50%;
+  background: #334155;
+  color: white;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.rotation-pad button:hover {
+  background: #475569;
+}
+
+.orientation-sphere {
+  width: 84px;
+  height: 84px;
+  pointer-events: none;
+}
+
+.reset-button {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 18px;
+  padding: 10px;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  background: #334155;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .app {
+    padding: 12px;
+  }
+
+  .app-header {
+    margin-bottom: 16px;
+  }
+
+  .role-switcher {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .role-switcher button {
+    padding: 10px;
+  }
+}
