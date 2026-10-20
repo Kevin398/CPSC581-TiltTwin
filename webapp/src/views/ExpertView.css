@@ -42,6 +42,7 @@
 }
 
 .expert-actions button {
+  min-height: 44px;
   padding: 10px 16px;
   border: 1px solid #64748b;
   border-radius: 8px;
@@ -58,10 +59,4 @@
 .expert-actions button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.expert-note {
-  margin: 0;
-  color: #94a3b8;
-  font-size: 13px;
 }

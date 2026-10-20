@@ -35,3 +35,13 @@ export function rotateFromView(
 
   return pitch.multiply(yaw).multiply(current).normalize()
 }
+
+
+export function angularDifferenceDegrees(
+  first: Quaternion,
+  second: Quaternion
+): number {
+  return Math.round(
+    MathUtils.radToDeg(first.angleTo(second))
+  )
+}
