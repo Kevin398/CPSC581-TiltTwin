@@ -13,7 +13,8 @@ export const AXES: Record<Axis, Vector3> = {
 // [positive rotation, negative rotation], in phone terms (see tests).
 export const AXIS_HINTS: Record<Axis, [string, string]> = {
   x: ['Tilt the top of the phone toward you', 'Tilt the top of the phone away from you'],
-  y: ['Turn the phone to the left', 'Turn the phone to the right'],
+  // Not "turn left/right": users read that both ways (screen faces left vs. phone turns left).
+  y: ['Swing the right edge of the phone away from you', 'Swing the right edge of the phone toward you'],
   z: ['Rotate the phone counter-clockwise', 'Rotate the phone clockwise'],
 }
 

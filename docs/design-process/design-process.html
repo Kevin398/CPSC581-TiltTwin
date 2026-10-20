@@ -136,7 +136,7 @@ Running in one tab meant there was no remote collaboration yet. These became the
 
 <h3>Prototype v2: TiltTwin (final system)</h3>
 <div class="grid2">
-  <figure><img src="../design/screenshots/v2-beginner-turning.png"><figcaption><b>Fig. 6a</b> Beginner, mid-rotation. The instruction gives a body-centred hint ("Turn the phone to the left"). The Y axis is highlighted, the arc arrow shows the remaining turn, the gauge reads 22°/45°, and everything is yellow because the part is close. The expert's looping demo plays bottom-right.</figcaption></figure>
+  <figure><img src="../design/screenshots/v2-beginner-turning.png"><figcaption><b>Fig. 6a</b> Beginner, mid-rotation. The instruction gives a body-centred hint ("Swing the right edge of the phone away from you"). The Y axis is highlighted, the arc arrow shows the remaining turn, the gauge reads 22°/45°, and everything is yellow because the part is close. The expert's looping demo plays bottom-right.</figcaption></figure>
   <figure><img src="../design/screenshots/v2-beginner-matched.png"><figcaption><b>Fig. 6b</b> Held within 8° of the target for 0.8 s. The part, frame and gauge turn green, "✓ Matched!" pops in, and the phone chimes and vibrates (multi-sensory output).</figcaption></figure>
 </div>
 <figure><img src="../design/screenshots/v2-expert-matched.png" style="max-height:420px;object-fit:contain"><figcaption><b>Fig. 7</b> Expert view. Left: choose an axis and angle, preview the demonstration loop, and send. Right: a live mirror of the beginner's part, angle readout, quick corrections and a free-text tip. Bottom: the session log records each lesson's input type and completion time (also used for our user test).</figcaption></figure>
@@ -151,7 +151,7 @@ Running in one tab meant there was no remote collaboration yet. These became the
   <tr><td><b>The phone is the part.</b> Turning the phone turns the part the same way, measured around the lesson's axis.</td><td>The most direct embodied mapping: the hand learns the rotation, not just the eye.</td><td>On-screen arrows (v1); full free 3-DoF rotation (too hard to judge against one target).</td></tr>
   <tr><td><b>One axis per lesson</b> (swing-twist decomposition isolates rotation around X, Y or Z).</td><td>Hands wobble. Ignoring off-axis wobble keeps feedback stable and matches how CAD tools teach rotation about one axis.</td><td>Matching full orientation (frustrating jitter); Euler angles (gimbal lock near an upright phone).</td></tr>
   <tr><td><b>Calibration</b>: the current pose becomes 0° when a lesson arrives, and a Calibrate button is always available.</td><td>Everyone holds the phone differently. A relative zero avoids compass drift and removes "hold it exactly like this" instructions.</td><td>Absolute compass heading (drifts indoors; differs between phones).</td></tr>
-  <tr><td><b>Body-centred hints</b> ("Tilt the top toward you", "Turn left").</td><td>Translates CAD axis language into motor language. Signs are verified by unit tests against the sensor specification.</td><td>Showing only X/Y/Z and ± (abstract for novices).</td></tr>
+  <tr><td><b>Body-centred hints</b> ("Tilt the top toward you", "Swing the right edge away from you").</td><td>Translates CAD axis language into motor language. Signs are verified by unit tests against the sensor specification.</td><td>Showing only X/Y/Z and ± (abstract for novices).</td></tr>
   <tr><td><b>8° tolerance, 0.8 s hold</b>.</td><td>Sweeping past the target shouldn't count. 8° is tight enough to be meaningful but achievable by hand.</td><td>A "Check Angle" button (v1, delayed feedback); 5° (too strict by hand). <span class="todo">[Tune after testing]</span></td></tr>
   <tr><td><b>Feedback in four channels</b>: colour, number, arrow, sound/vibration.</td><td>The beginner's eyes move between the part and the phone's orientation, so redundant cues help. Vibration confirms success without looking.</td><td>Transparency overlay (dropped, §4).</td></tr>
   <tr><td><b>Quick corrections</b> plus free text for the expert.</td><td>The expert watches a live mirror and must correct within seconds; one-tap phrases are faster than typing.</td><td>Voice or video call (discouraged by the brief; doesn't use the shared model).</td></tr>
@@ -161,8 +161,9 @@ Running in one tab meant there was no remote collaboration yet. These became the
 <h2>7 · Evaluation</h2>
 <h3>7.1 Technical verification (done)</h3>
 <ul>
-  <li><b>Sensor mapping unit tests</b> (<code>npm test</code>, 5 tests pass): wrap-around at ±180°; twist extraction ignores off-axis wobble;
-  turning an upright phone left reads as +Y; tilting the top toward the user reads as +X; landscape screens use screen axes.
+  <li><b>Sensor mapping unit tests</b> (<code>npm test</code>, 6 tests pass): wrap-around at ±180°; twist extraction ignores off-axis wobble;
+  and for portrait and both landscape holds, the physical motion named by each hint produces a positive angle on its axis.
+  The test builds realistic phone poses and converts them to the angles a browser reports.
   One test initially failed: our assumption about the sign of <code>beta</code> was wrong. We corrected the test against the W3C definition,
   which confirmed the on-screen hints were right.</li>
   <li><b>Simulated-sensor runs</b>: synthetic <code>deviceorientation</code> events drove the beginner view through far → close → matched,
@@ -186,7 +187,15 @@ expert corrections sent, and a 1–5 rating for "I understood which way to rotat
   <tr><td>Preferred condition (count)</td><td class="todo">[ ]</td><td class="todo">[ ]</td><td></td></tr>
 </table>
 <p><b>Observations and quotes:</b> <span class="todo">[What surprised you? Where did people hesitate? Any quotes?]</span></p>
-<p><b>Changes made because of testing:</b> <span class="todo">[e.g. tolerance tweak, hint wording, smoothing. Fill in after the session.]</span></p>
+<p><b>Changes made because of testing:</b></p>
+<ul>
+  <li><b>Y-axis hint reworded.</b> In our first real-phone test, X and Z lessons were completed as instructed, but for Y the
+  tester moved the opposite way. The original hint, "Turn the phone to the left", can be read two ways: the phone turning left
+  (its screen ends up facing right) or the screen turning to face left. We checked the sensor maths against the W3C angle
+  definitions for portrait and both landscape holds (now automated tests). The rotation itself was correct, so the
+  ambiguity was in the words. The hint now names a specific edge: "Swing the right edge of the phone away from you".</li>
+  <li><span class="todo">[Add further changes from the A/B session.]</span></li>
+</ul>
 
 <h2>8 · Known limitations and incomplete functionality</h2>
 <ul>

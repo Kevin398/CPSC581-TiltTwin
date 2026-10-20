@@ -24,7 +24,7 @@ screens show ✓, the phone chimes and vibrates, and the expert's session log re
 3. Beginner holds the phone sideways in front of them, as if holding the part.
 4. Expert picks an **axis** (X/Y/Z) and an **angle** and presses **Send instruction**.
    The phone buzzes, recalibrates to 0°, and shows the expert's looping demo in the corner.
-5. Beginner turns the phone. Follow the hint (e.g. *“Turn the phone to the left”*), the arrow
+5. Beginner turns the phone. Follow the hint (e.g. *“Swing the right edge of the phone away from you”*), the arrow
    and the gauge. Hold on target for ~1 s → **✓ Matched!** on both screens.
 6. Expert can send quick corrections (*Other way!*, *Keep going*…) or type a tip at any time.
 

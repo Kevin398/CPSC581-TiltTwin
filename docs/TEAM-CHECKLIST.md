@@ -14,7 +14,7 @@ accounts or real phones. They're in order, with rough times.
 Open https://tilttwin.vercel.app as the expert on a laptop, and as the beginner on an **iPhone** and an **Android** phone. Use different networks, e.g. phone on cellular.
 
 - [ ] iPhone: the "Allow motion" prompt appears and the part follows the phone.
-- [ ] Each axis turns the right way. Send Y +45 (turn left), X +45 (tilt top toward you) and Z +90 (counter-clockwise).
+- [ ] Each axis turns the right way. Send Y +45 (right edge away from you), X +45 (tilt top toward you) and Z +90 (counter-clockwise).
 - [ ] ✓ appears on both screens; chime plays; Android vibrates.
 - [ ] Corrections arrive on the phone; End lesson clears it.
 - [ ] If a direction is reversed on a real phone: tell whoever owns the code. The fix is one sign in `AXIS_HINTS` or `deviceQuaternion`, with a matching change in `tests/rotationMath.test.ts`.
