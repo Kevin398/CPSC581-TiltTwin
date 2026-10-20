@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "rooms": {
+      "$room": {
+        ".read": "$room.matches(/^[A-Z0-9]{4,8}$/)",
+        ".write": "$room.matches(/^[A-Z0-9]{4,8}$/)",
+        "lesson": {
+          ".validate": "!newData.exists() || (newData.child('axis').val().matches(/^[xyz]$/) && newData.child('angle').isNumber() && newData.child('id').isNumber())"
+        },
+        "message": {
+          ".validate": "!newData.exists() || (newData.child('text').isString() && newData.child('text').val().length <= 120)"
+        }
+      }
+    }
+  }
+}
