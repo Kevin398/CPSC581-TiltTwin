@@ -3,16 +3,15 @@
 The code is done and tested in a browser with simulated sensors. These steps need people,
 accounts or real phones. They're in order, with rough times.
 
-## 1. Vercel deploy (≈5 min, one person)
+## 1. Hosting: done
 
 - [x] Firebase is done: project `tilttwin-581-3cv9z`, rules deployed, and sync tested end-to-end.
-- [ ] Deploy on Vercel: import the repo, set Root Directory to `webapp`, Deploy. No environment variables are needed.
-- [ ] Put the live URL in `README.md` and on page 1 of the write-up.
+- [x] Vercel is done: **https://tilttwin.vercel.app** (verified end-to-end over HTTPS). To redeploy, run `npx vercel deploy --prod` from `webapp/`.
 - [ ] Optional: in the Firebase console, add teammates under Project settings → Users and permissions.
 
 ## 2. Real-phone check (≈20 min)
 
-Open the Vercel URL as the expert on a laptop, and as the beginner on an **iPhone** and an **Android** phone. Use different networks, e.g. phone on cellular.
+Open https://tilttwin.vercel.app as the expert on a laptop, and as the beginner on an **iPhone** and an **Android** phone. Use different networks, e.g. phone on cellular.
 
 - [ ] iPhone: the "Allow motion" prompt appears and the part follows the phone.
 - [ ] Each axis turns the right way. Send Y +45 (turn left), X +45 (tilt top toward you) and Z +90 (counter-clockwise).

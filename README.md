@@ -8,7 +8,7 @@ The expert picks an axis and an angle and sends it. The beginner reproduces the 
 live feedback: a turn arrow, an angle gauge and colour changes. When the part is held on target, both
 screens show ✓, the phone chimes and vibrates, and the expert's session log records the time.
 
-- **Live app:** _add Vercel URL here_
+- **Live app:** https://tilttwin.vercel.app
 - **Demo video:** _add link here_
 - **Design process write-up:** [`docs/TiltTwin-Design-Process.pdf`](docs/TiltTwin-Design-Process.pdf)
 
@@ -71,9 +71,14 @@ because the rules in [`firebase/database.rules.json`](firebase/database.rules.js
 
 ## Deploy (Vercel)
 
-1. <https://vercel.com/new> → import this GitHub repo.
-2. **Root Directory:** `webapp` (framework auto-detects as Vite).
-3. Deploy (no environment variables needed), then put the URL at the top of this README.
+Live at **https://tilttwin.vercel.app** (Vercel project `tilttwin`, root directory `webapp`).
+To redeploy after changes, run this from `webapp/` (requires the project owner's Vercel login):
+
+```bash
+npx vercel deploy --prod
+```
+
+Optional: in the Vercel dashboard, open Project → Settings → Git and connect this GitHub repo, so every push to `main` deploys automatically.
 
 ## Code map
 
