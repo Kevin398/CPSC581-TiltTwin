@@ -45,9 +45,8 @@ npm install
 npm run dev
 ```
 
-Open the printed URL in **two tabs**: one as expert, one as beginner. Without a Firebase URL
-the app runs in **local mode**, where the tabs sync through `localStorage`. Local mode only works
-between tabs of the same browser. Use it for development or as a backup demo.
+Open the printed URL in **two tabs**: one as expert, one as beginner. They sync through the
+shared Firebase database, so a phone on the same Wi-Fi works too, as long as it has HTTPS for motion sensors.
 
 To test on a real phone you need HTTPS, so deploy (below) or use a tunnel.
 
@@ -57,27 +56,24 @@ npm run lint
 npm run build
 ```
 
-## Real-time sync (Firebase): one-time setup
+## Real-time sync (Firebase)
 
-1. <https://console.firebase.google.com> → **Add project** (Analytics not needed).
-2. **Build → Realtime Database → Create database** → any location → **Start in test mode**.
-3. Replace the rules with [`firebase/database.rules.json`](firebase/database.rules.json)
-   (Rules tab → paste → Publish).
-4. Copy the database URL (e.g. `https://tilttwin-xxxx-default-rtdb.firebaseio.com`) and put it in
-   `webapp/.env.local`:
+Already set up. The app uses the Realtime Database of the Firebase project `tilttwin-581-3cv9z`
+(free Spark plan). The database URL is built into `webapp/src/sync.ts`. It isn't a secret,
+because the rules in [`firebase/database.rules.json`](firebase/database.rules.json) only allow
+`rooms/<CODE>` to be read or written, and they check the lesson and message data.
 
-   ```bash
-   VITE_FIREBASE_DATABASE_URL=https://tilttwin-xxxx-default-rtdb.firebaseio.com
-   ```
-
-That one URL is all the app needs. It isn't a secret, because the rules decide what can be written.
+- **Change the rules:** edit `firebase/database.rules.json`, then run
+  `npx firebase-tools deploy --only database` from the repo root (project owner's login).
+- **Use a different database:** set `VITE_FIREBASE_DATABASE_URL=https://…` in `webapp/.env.local`.
+- **Force local two-tab mode:** set `VITE_FIREBASE_DATABASE_URL=` (empty) in `webapp/.env.local`.
+- **Console:** https://console.firebase.google.com/project/tilttwin-581-3cv9z/database (only the owner, or members added under Project settings → Users and permissions, can open it).
 
 ## Deploy (Vercel)
 
 1. <https://vercel.com/new> → import this GitHub repo.
 2. **Root Directory:** `webapp` (framework auto-detects as Vite).
-3. **Environment Variables:** `VITE_FIREBASE_DATABASE_URL` = your database URL.
-4. Deploy, then put the URL at the top of this README.
+3. Deploy (no environment variables needed), then put the URL at the top of this README.
 
 ## Code map
 

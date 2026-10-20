@@ -20,10 +20,13 @@ export type Room = {
   beginner?: BeginnerState | null
 }
 
-const databaseURL = import.meta.env.VITE_FIREBASE_DATABASE_URL as string | undefined
+// Not a secret: access is controlled by firebase/database.rules.json.
+// Set VITE_FIREBASE_DATABASE_URL= (empty) in .env.local to use local mode.
+const databaseURL: string =
+  import.meta.env.VITE_FIREBASE_DATABASE_URL ?? 'https://tilttwin-581-3cv9z-default-rtdb.firebaseio.com'
 
 // Without a Firebase URL, rooms live in localStorage so two tabs of the same
-// browser can still talk (handy for local dev and as a demo backup).
+// browser can still talk (handy for offline dev and as a demo backup).
 export const db = databaseURL ? getDatabase(initializeApp({ databaseURL })) : null
 
 const storageKey = (roomId: string) => `tilttwin:${roomId}`

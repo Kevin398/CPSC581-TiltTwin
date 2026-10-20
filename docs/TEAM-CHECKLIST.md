@@ -3,11 +3,12 @@
 The code is done and tested in a browser with simulated sensors. These steps need people,
 accounts or real phones. They're in order, with rough times.
 
-## 1. Firebase + Vercel (≈15 min, one person)
+## 1. Vercel deploy (≈5 min, one person)
 
-- [ ] Create the Firebase Realtime Database and paste the rules from `firebase/database.rules.json`. README → "Real-time sync" has the steps.
-- [ ] Deploy on Vercel: Root Directory `webapp`, env var `VITE_FIREBASE_DATABASE_URL`. README → "Deploy" has the steps.
+- [x] Firebase is done: project `tilttwin-581-3cv9z`, rules deployed, and sync tested end-to-end.
+- [ ] Deploy on Vercel: import the repo, set Root Directory to `webapp`, Deploy. No environment variables are needed.
 - [ ] Put the live URL in `README.md` and on page 1 of the write-up.
+- [ ] Optional: in the Firebase console, add teammates under Project settings → Users and permissions.
 
 ## 2. Real-phone check (≈20 min)
 
