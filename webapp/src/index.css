@@ -1,8 +1,21 @@
-
 :root {
-  font-family: Arial, sans-serif;
-  color: #f1f5f9;
-  background: #0f172a;
+  --bg: #0b1220;
+  --panel: #131c2e;
+  --panel-2: #1a2540;
+  --line: #26324a;
+  --text: #e8eef7;
+  --muted: #8fa0b8;
+  --accent: #3b82f6;
+  --far: #f97316;
+  --close: #facc15;
+  --done: #22c55e;
+  --x: #ef4444;
+  --y: #22c55e;
+  --z: #3b82f6;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -12,8 +25,14 @@
 body {
   margin: 0;
   min-width: 320px;
+  background: var(--bg);
 }
 
-button {
+button,
+input {
   font: inherit;
+}
+
+a {
+  color: #93c5fd;
 }
