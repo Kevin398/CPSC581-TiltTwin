@@ -1,0 +1,67 @@
+
+.expert-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.expert-heading h2 {
+  margin: 0 0 8px;
+}
+
+.expert-heading p {
+  margin: 0;
+  color: #94a3b8;
+}
+
+.expert-target-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  background: #1e293b;
+}
+
+.expert-target-panel h3 {
+  margin: 0 0 8px;
+}
+
+.expert-target-panel p {
+  margin: 6px 0;
+  color: #cbd5e1;
+}
+
+.expert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.expert-actions button {
+  padding: 10px 16px;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  background: #334155;
+  color: white;
+  cursor: pointer;
+}
+
+.expert-actions button:first-child {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.expert-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.expert-note {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 13px;
+}
