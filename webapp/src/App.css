@@ -1,0 +1,83 @@
+
+#root {
+  width: 100%;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-header {
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  margin-bottom: 4px;
+}
+
+.app-header p {
+  color: #94a3b8;
+}
+
+.workspace {
+  position: relative;
+  height: min(75vh, 640px);
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid #334155;
+  border-radius: 18px;
+  background: #16243a;
+}
+
+.rotation-panel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.rotation-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(3, 44px);
+  gap: 24px;
+  place-items: center;
+}
+
+.rotation-pad button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #64748b;
+  border-radius: 50%;
+  background: #334155;
+  color: white;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.rotation-pad button:hover {
+  background: #475569;
+}
+
+.orientation-sphere {
+  width: 84px;
+  height: 84px;
+  pointer-events: none;
+}
+
+.reset-button {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 10px;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  background: #334155;
+  color: white;
+  cursor: pointer;
+}
