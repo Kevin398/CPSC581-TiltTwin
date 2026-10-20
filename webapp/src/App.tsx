@@ -29,7 +29,10 @@ export default function App() {
       </header>
 
       <section className="workspace" aria-label="CAD workspace">
-        <CadScene orientation={orientation} />
+        <CadScene
+          orientation={orientation}
+          onDragRotate={handleRotate}
+        />
 
         <RotationButtons
           orientation={orientation}
