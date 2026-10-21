@@ -17,27 +17,27 @@ Open https://tilttwin.vercel.app as the expert on a laptop, and as the beginner 
 - [ ] Each axis turns the right way. Send Y +45 (right edge away from you), X +45 (tilt top toward you) and Z +90 (counter-clockwise).
 - [ ] ✓ appears on both screens; chime plays; Android vibrates.
 - [ ] Try each part (bracket, elbow, gear, wrench). The mating part should line up exactly when ✓ appears.
-- [ ] Hot/cold: with the iPhone silent switch **off**, ticks should speed up as you get closer. Do you feel a light tap on each tick (iOS 18+)? Note the result for write-up §9.
+- [ ] Hot/cold: with the iPhone silent switch **off**, ticks should speed up as you get closer. Do you feel a light tap on each tick (iOS 18+)? Note the result for write-up §10 (limitations).
 - [ ] Corrections arrive on the phone; End lesson clears it.
 - [ ] If a direction is reversed on a real phone: tell whoever owns the code. The fix is one sign in `AXIS_HINTS` or `deviceQuaternion`, with a matching change in `tests/rotationMath.test.ts`.
 - [ ] If the part is too jittery or too laggy, tune `SMOOTHING` in `webapp/src/hooks/usePhoneTilt.ts`. If matching is too hard or too easy, tune `TOLERANCE` in `webapp/src/utils/rotationMath.ts`.
-- [ ] Write the phones and browsers you tested in write-up §7.1 ("Real devices").
+- [ ] Write the phones and browsers you tested in write-up §9.1 ("Real devices").
 
 ## 3. Usability test A vs B (≈45 min, 3–5 participants)
 
-The protocol is in write-up §7.2. Per participant:
+The protocol is in write-up §9.2. Per participant:
 
 1. Do the conditions in counterbalanced order: half start with **A (drag)**, half with **B (tilt)**. The beginner switches using the **Use drag / Use tilt** button.
 2. In each condition, the expert sends Y +45°, X −90° and Z +90°.
 3. Expert: press **Copy CSV** after each participant and paste it into a sheet. It records times automatically.
 4. Write down by hand: wrong-direction starts, corrections sent, the 1–5 rating for "I understood which way to rotate", the preferred condition, and quotes.
 
-Then fill in the table and the "Observations" / "Changes made" lines in §7.2. **Only real numbers.**
+Then fill in the table and the "Observations" / "Changes made" lines in §9.2. **Only real numbers.**
 
 ## 4. Finish the write-up (≈30 min)
 
 Edit `docs/design-process/design-process.html`. Every orange `[…]` is a placeholder:
-- team names (page 1 and §9)
+- team names (page 1 and §11)
 - confirm or adjust the Table 1 scores
 - an extra reason for dropping transparency, if you had one
 - real devices tested, test results, AI-use wording
@@ -57,7 +57,7 @@ Film the laptop and the phone in one frame, or split screen. Add text captions.
 | Time | Shot | Caption |
 |---|---|---|
 | 0:00–0:10 | Title + both devices | "TiltTwin: an expert teaches 3D rotation; the beginner learns it with their hands" |
-| 0:10–0:25 | Expert starts a lesson, reads the code; beginner joins on the phone and taps Start | "Join with a 4-letter room code" |
+| 0:10–0:25 | Expert starts a lesson; beginner opens tilttwin.vercel.app/join, types the 4-letter code, taps Start | "One link, one short code" |
 | 0:25–0:40 | Expert picks Y, +45°, the demo loops, presses Send; the phone buzzes | "Expert demonstrates the rotation" |
 | 0:40–1:05 | **Hands turning the phone** (key shot); the part follows; hint + arrow + yellow gauge | "The phone *is* the part: turn it to turn the model" |
 | 1:05–1:15 | Expert's screen mirrors live; expert taps "Keep going" | "Expert watches live and corrects" |

@@ -64,8 +64,9 @@
   <div class="d"><b>③ Refine</b>5 refinement sketches; drop transparency (Fig. 2)</div>
   <div class="c"><b>④ Specify</b>Storyboard; wireframes v1 → v2 (Figs. 3–4)</div>
   <div class="e"><b>⑤ Prototype</b>v1: mouse baseline (Fig. 5); v2: phone tilt + sync (Figs. 6–8)</div>
-  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-phone test; A/B user test (§8)</div>
-  <div class="d"><b>⑦ Extend</b>Real assembly tasks, hot/cold sound and haptics (§8)</div>
+  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-phone test; A/B user test (§9)</div>
+  <div class="d"><b>⑦ Extend</b>Real assembly tasks, hot/cold sound and haptics (§7)</div>
+  <div class="c"><b>⑧ Polish</b>UI/UX audit, fixed join link (§8)</div>
 </div>
 <p><b>Methods and tools:</b> individual rapid sketching (in-class "10 ideas" technique), team critique in Discord,
 a criteria-based comparison matrix, a storyboard, low-fidelity wireframes in two versions, an interactive
@@ -100,7 +101,7 @@ The proxy-object idea (#5) scored high on embodiment, but it needs tracking hard
 A phone already carries an orientation sensor, so <b>the phone itself becomes the physical proxy</b>.</p>
 <div class="box"><b>Decision.</b> Merge #2 (physical rotation), #7 (rotate until correct) and #10 (expert creates actions to copy) into
 TiltTwin. We deliberately <b>gave up breadth</b> (extrude and scale) to make one embodied interaction, rotation, complete and polished.
-This also gives a clean A/B comparison with mouse rotation (§8).</div>
+This also gives a clean A/B comparison with mouse rotation (§9).</div>
 
 <h2>4 · Iteration 1: refining TiltTwin</h2>
 <div class="grid2">
@@ -189,8 +190,28 @@ meaning while staying cheap enough to build reliably before the deadline:</p>
   The session log records the part, so the A/B test can cover different parts.</li>
 </ul>
 
-<h2>8 · Evaluation</h2>
-<h3>8.1 Technical verification (done)</h3>
+<h2>8 · Iteration 5: usability and visual audit</h2>
+<p>Before the critique we audited the whole interface against a professional UI/UX checklist (the <i>UI/UX Pro Max</i>
+guideline database: accessibility, touch, typography, motion and forms). We also simplified how beginners join, after noticing that a new
+long link per lesson is awkward to send to a phone.</p>
+<table>
+  <tr><th>Finding</th><th>Guideline</th><th>Change</th></tr>
+  <tr><td>A new long link for every lesson had to be sent to the phone</td><td>Predictable navigation; fewer steps</td><td>One fixed link (<code>tilttwin.vercel.app/join</code>, easy to bookmark) plus a 4-letter code shown large on the expert's screen. The code is checked against live rooms, and a mistyped code gets an inline error.</td></tr>
+  <tr><td>Emoji used as icons (🔊 💬)</td><td>One consistent SVG icon family</td><td>Inline stroke icon set; icon-only buttons have accessible names</td></tr>
+  <tr><td>No visible keyboard focus on dark buttons</td><td>Focus states (high severity)</td><td><code>:focus-visible</code> ring on every control</td></tr>
+  <tr><td>Phone toolbar buttons were 38 px</td><td>Touch targets ≥ 44 px</td><td>All controls ≥ 44 px</td></tr>
+  <tr><td>Code field used a placeholder as its label</td><td>Visible labels; errors next to the field</td><td>Visible label, helper text and inline error</td></tr>
+  <tr><td>Thin bar meter for progress</td><td>Glanceable feedback</td><td>Radial progress ring around the live angle, in monospaced numbers that don't jitter</td></tr>
+  <tr><td>Home page didn't show the product</td><td>Show the core interaction first</td><td>Interactive 3D hero (pick a part, watch it fit) and a three-step "How it works"</td></tr>
+  <tr><td>Success was a static badge</td><td>Motion should convey meaning</td><td>A pulse ring for the "click into place" moment; all motion is disabled under reduced-motion</td></tr>
+</table>
+<div class="grid2">
+  <figure><img src="../design/screenshots/v2-home.png"><figcaption><b>Fig. 10a</b> Home: interactive 3D preview with part chips, "How it works", and code entry.</figcaption></figure>
+  <figure><img src="../design/screenshots/v4-join.png" style="max-height:330px;object-fit:contain;background:#070b14"><figcaption><b>Fig. 10b</b> The fixed join page on a phone. Typography is IBM Plex Sans with JetBrains Mono for codes and angles.</figcaption></figure>
+</div>
+
+<h2>9 · Evaluation</h2>
+<h3>9.1 Technical verification (done)</h3>
 <ul>
   <li><b>Sensor mapping unit tests</b> (<code>npm test</code>, 6 tests pass): wrap-around at ±180°; twist extraction ignores off-axis wobble;
   and for portrait and both landscape holds, the physical motion named by each hint produces a positive angle on its axis.
@@ -204,7 +225,7 @@ meaning while staying cheap enough to build reliably before the deadline:</p>
   <li><b>Real devices:</b> <span class="todo">[Team: list the phones and browsers tested, e.g. iPhone 14 / Safari, Pixel 7 / Chrome, and any issues.]</span></li>
 </ul>
 
-<h3>8.2 Usability test: mouse (A) vs. phone tilt (B)</h3>
+<h3>9.2 Usability test: mouse (A) vs. phone tilt (B)</h3>
 <p><b>Protocol.</b> Within-subjects, counterbalanced (half start with A). Each participant gets three lessons per condition
 (e.g. bracket Y +45°, elbow X −90°, gear Z +90°) from a team member acting as the expert. The session log records completion time; we note wrong-direction starts,
 expert corrections sent, and a 1–5 rating for "I understood which way to rotate". Condition A is TiltTwin's
@@ -228,7 +249,7 @@ expert corrections sent, and a 1–5 rating for "I understood which way to rotat
   <li><span class="todo">[Add further changes from the A/B session.]</span></li>
 </ul>
 
-<h2>9 · Known limitations and incomplete functionality</h2>
+<h2>10 · Known limitations and incomplete functionality</h2>
 <ul>
   <li><b>One axis per lesson</b> (by design). Compound rotations would be a sequence of lessons.</li>
   <li><b>Rotation only</b>: no extrusion or scaling, and no import of real Blender or Fusion files. There are four predefined parts (bracket, pipe elbow, gear, wrench).</li>
@@ -240,7 +261,7 @@ expert corrections sent, and a 1–5 rating for "I understood which way to rotat
   <li>The expert's session log lives in that browser tab and is lost on reload; use "Copy CSV" to keep it.</li>
 </ul>
 
-<h2>10 · Credits and AI use</h2>
+<h2>11 · Credits and AI use</h2>
 <p>Sketches, storyboard and wireframes: <span class="todo">[names]</span>. Baseline prototype: <span class="todo">[names]</span>.
 Built with React, TypeScript, Three.js (react-three-fiber, drei), Firebase Realtime Database and Vite.
 <b>AI assistance:</b> Claude (Anthropic) was used to implement parts of the v2 prototype (phone-orientation hook, sync layer, feedback UI),

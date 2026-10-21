@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import CadScene from '../components/CadScene'
+import Icon from '../components/Icon'
 import { usePhoneTilt } from '../hooks/usePhoneTilt'
 import { useRoom } from '../sync'
 import { buzz, chime, tick, unlockAudio } from '../utils/feedback'
@@ -13,6 +14,10 @@ const SYNC_EVERY_MS = 150
 // Hot/cold tick interval: fast when close, slow when far.
 const TICK_NEAR_MS = 110
 const TICK_MS_PER_DEGREE = 4.5
+
+// Circumference of the progress ring (r = 44). Explicit rather than SVG
+// pathLength, which older iOS Safari ignores for dash arrays.
+const RING = 2 * Math.PI * 44
 
 type Mode = 'tilt' | 'drag'
 
@@ -53,6 +58,8 @@ export default function BeginnerView({ roomId }: { roomId: string }) {
   const seconds = done ? finished.seconds : 0
   const remaining = target === null ? 0 : wrapDegrees(target - angle)
   const onTarget = target !== null && Math.abs(remaining) <= TOLERANCE
+  // 0 at the start (or going the wrong way), 1 on target.
+  const progress = target === null ? 0 : done ? 1 : Math.max(0, 1 - Math.abs(remaining) / Math.max(Math.abs(target), 1))
 
   // Keyed on the id: every sync tick delivers a fresh `lesson` object.
   const lessonId = lesson?.id
@@ -135,14 +142,24 @@ export default function BeginnerView({ roomId }: { roomId: string }) {
         <span className="brand">TiltTwin</span>
         <span className="room-code">Room <strong>{roomId}</strong></span>
         <span className="spacer" />
-        <button type="button" aria-pressed={guide} aria-label="Hot/cold sound guide" onClick={() => setGuide((g) => !g)}>
-          {guide ? '🔊' : '🔇'}
+        <button type="button" className="icon-button" aria-pressed={guide} aria-label="Hot/cold sound guide" title="Hot/cold sound" onClick={() => setGuide((g) => !g)}>
+          <Icon name={guide ? 'volume' : 'mute'} />
         </button>
-        <button type="button" aria-pressed={showAxes} onClick={() => setShowAxes((s) => !s)}>Axes</button>
-        {usingTilt && <button type="button" onClick={tilt.calibrate}>Calibrate</button>}
+        <button type="button" className="icon-button" aria-pressed={showAxes} aria-label="Show axes" title="Axes" onClick={() => setShowAxes((s) => !s)}>
+          <Icon name="axes" />
+        </button>
+        {usingTilt && (
+          <button type="button" aria-label="Calibrate: make this position 0°" onClick={tilt.calibrate}>
+            <Icon name="rotate" /> <span className="label">Calibrate</span>
+          </button>
+        )}
         {mode && (
-          <button type="button" onClick={() => (mode === 'tilt' ? startDrag() : startTilt())}>
-            {mode === 'tilt' ? 'Use drag' : 'Use tilt'}
+          <button
+            type="button"
+            aria-label={mode === 'tilt' ? 'Use drag instead of phone motion' : 'Use phone motion'}
+            onClick={() => (mode === 'tilt' ? startDrag() : startTilt())}
+          >
+            <Icon name={mode === 'tilt' ? 'move' : 'phone'} /> <span className="label">{mode === 'tilt' ? 'Use drag' : 'Use tilt'}</span>
           </button>
         )}
       </header>
@@ -169,10 +186,21 @@ export default function BeginnerView({ roomId }: { roomId: string }) {
       )}
 
       {lesson && (
-        <div className="hud gauge">
+        <div
+          className="hud gauge"
+          role="progressbar"
+          aria-label="Rotation progress"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(progress * 100)}
+          aria-valuetext={`${angle} of ${lesson.angle} degrees`}
+        >
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle className="ring-track" cx="50" cy="50" r="44" />
+            <circle className="ring-fill" cx="50" cy="50" r="44" strokeDasharray={`${progress * RING} ${RING}`} />
+          </svg>
           <span className="value">{angle}°</span>
-          <span className="of">/ {lesson.angle}°</span>
-          <meter min={0} max={180} low={25} high={TOLERANCE + 1} optimum={0} value={Math.abs(remaining)} />
+          <span className="of">of {lesson.angle}°</span>
         </div>
       )}
 
@@ -184,22 +212,28 @@ export default function BeginnerView({ roomId }: { roomId: string }) {
       )}
 
       {message && (
-        <div className="toast" key={message.id} role="status">💬 {message.text}</div>
+        <div className="toast" key={message.id} role="status"><Icon name="message" /> {message.text}</div>
       )}
 
-      {done && <div className="done-badge big" role="status">✓ It fits!</div>}
+      {done && (
+        <div className="done-badge big" role="status">
+          <span className="pulse" aria-hidden="true" />
+          <Icon name="check" size={22} /> It fits!
+        </div>
+      )}
 
       {(!mode || (mode === 'tilt' && tilt.status !== 'on')) && (
         <div className="overlay">
           <div className="card">
+            <span className="badge"><Icon name="phone" size={14} /> Room {roomId}</span>
             <h1>Learn by moving</h1>
             {tilt.status === 'denied' && <p className="warn">Motion access was blocked. Allow it in your browser settings, or use drag.</p>}
             {tilt.status === 'unsupported' && <p className="warn">No motion sensor found on this device. Use drag instead.</p>}
             <p>Hold your phone sideways in front of you, like you're holding the part. Turn the phone, and the part turns with it.</p>
-            <p>Listen for the ticks: they speed up as you get closer. 🔊</p>
+            <p>Listen for the ticks: they speed up as you get closer.</p>
             <p className="muted">Tip: turn on rotation lock, and turn the silent switch off for sound.</p>
-            <button type="button" className="primary" onClick={startTilt}>Start with phone motion</button>
-            <button type="button" onClick={startDrag}>Use touch / mouse drag</button>
+            <button type="button" className="primary large" onClick={startTilt}><Icon name="phone" /> Start with phone motion</button>
+            <button type="button" onClick={startDrag}><Icon name="move" /> Use touch / mouse drag</button>
           </div>
         </div>
       )}

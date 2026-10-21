@@ -20,8 +20,9 @@ screens show ✓, the phone chimes, and the expert's session log records the tim
 
 ## How to use it
 
-1. **Expert** opens the app on a laptop → **Start a lesson**. Note the 4-letter room code.
-2. **Beginner** opens the app on a phone → enters the code → **Start with phone motion**
+1. **Expert** opens the app on a laptop → **Start a lesson**. The screen shows a big 4-letter code.
+2. **Beginner** opens **https://tilttwin.vercel.app/join** on a phone. It's the same link every time, so bookmark it.
+   Enter the code (a wrong code gets an error message) → **Start with phone motion**
    (on iPhone, tap **Allow** when asked for motion access).
 3. Beginner holds the phone sideways in front of them, as if holding the part.
 4. Expert picks a **part**, an **axis** (X/Y/Z) and an **angle**, then presses **Send instruction**.
