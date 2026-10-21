@@ -1,8 +1,41 @@
-
 :root {
-  font-family: Arial, sans-serif;
-  color: #f1f5f9;
-  background: #0f172a;
+  /* Surfaces (OLED-friendly dark) */
+  --bg: #070b14;
+  --panel: #0f1626;
+  --panel-2: #172036;
+  --line: #24304a;
+  --line-strong: #3a4a6b;
+  /* Text: all >= 4.5:1 on --panel */
+  --text: #eef2f8;
+  --muted: #9aa8bf;
+  /* Actions are blue; green is reserved for "it fits" */
+  --accent: #3b82f6;
+  --accent-strong: #2563eb;
+  --ring: #93c5fd;
+  /* Match status */
+  --far: #f97316;
+  --close: #facc15;
+  --done: #22c55e;
+  /* CAD axis convention */
+  --x: #ef4444;
+  --y: #22c55e;
+  --z: #3b82f6;
+  /* Motion */
+  --fast: 150ms;
+  --base: 220ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --spring: cubic-bezier(0.2, 1.6, 0.4, 1);
+
+  --sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -12,8 +45,23 @@
 body {
   margin: 0;
   min-width: 320px;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #12204099, transparent 60%),
+    var(--bg);
 }
 
-button {
+button,
+input {
   font: inherit;
+}
+
+a {
+  color: var(--ring);
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
