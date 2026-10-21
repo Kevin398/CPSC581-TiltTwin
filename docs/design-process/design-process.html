@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -44,64 +45,252 @@
 
 <h1>TiltTwin</h1>
 <p class="sub">Remote CAD teaching through physical motion · Design process write-up</p>
-<p class="meta">CPSC 581 Fall 2026 · Group Project 2: Expertise Sharing · <span class="todo">[Team member names]</span> · Source: github.com/Kevin398/CPSC581-TiltTwin · Live: tilttwin.vercel.app</p>
+
+<p class="meta">
+  CPSC 581 Fall 2026 · Group Project 2: Expertise Sharing ·
+  Kevin, Ayushi, Prince ·
+  Source: github.com/Kevin398/CPSC581-TiltTwin ·
+  Live: tilttwin.vercel.app
+</p>
 
 <div class="box">
-  <b>In one sentence.</b> An expert on a laptop demonstrates a rotation of a CAD part. A beginner on a phone
-  reproduces it by <i>physically turning the phone</i>, so the virtual part turns as if it were held in their hand.
-  Both people see live angle, direction and colour feedback, and both get a ✓ when the beginner matches.
-  <br><b>Expertise conveyed:</b> spatial understanding of 3D rotation, meaning which axis, which direction and how far.
-  Novices in Blender or Fusion struggle with this because the mouse mapping (orbit vs. rotate, gimbal axes) is abstract.
-  <br><b>Configuration:</b> one expert (laptop), one novice (smartphone), synchronous and remote, joined by a 4-letter room code.
+  <b>In one sentence.</b>
+  An expert on a laptop demonstrates a rotation of a CAD part.
+  A beginner on a phone reproduces it by
+  <i>physically turning the phone</i>, so the virtual part
+  turns as if it were held in their hand.
+  Both people see live angle, direction and colour feedback,
+  and both get a ✓ when the beginner matches.
+
+  <br><b>Expertise conveyed:</b>
+  Spatial understanding of 3D rotation, meaning which axis,
+  which direction and how far. Novices in Blender or Fusion
+  struggle with this because the mouse mapping
+  (orbit vs. rotate, gimbal axes) is abstract.
+
+  <br><b>Configuration:</b>
+  One expert (laptop), one novice (smartphone),
+  synchronous and remote, joined by a 4-letter room code.
 </div>
 
 <h2>1 · Process overview</h2>
-<p>We alternated divergent and convergent phases over five iterations. Each iteration produced an artifact
-(sketch set, storyboard, wireframe or prototype) that was critiqued before the next step.</p>
+
+<p>
+  We alternated divergent and convergent phases over five
+  iterations. Each iteration produced an artifact
+  (sketch set, storyboard, wireframe or prototype)
+  that was reviewed before the next step.
+
+  Kevin developed the initial sketches and baseline
+  prototype, regularly consulting teammates Ayushi
+  and Prince for feedback. Their feedback contributed
+  to the team's evaluation of concepts and refinement
+  of the interaction during prototyping.
+</p>
+
 <div class="flow">
   <div class="d"><b>① Diverge</b>10 interaction concepts sketched (Fig. 1)</div>
   <div class="c"><b>② Converge</b>Compare against criteria; pivot from CADSense to TiltTwin (Table 1)</div>
   <div class="d"><b>③ Refine</b>5 refinement sketches; drop transparency (Fig. 2)</div>
   <div class="c"><b>④ Specify</b>Storyboard; wireframes v1 → v2 (Figs. 3–4)</div>
   <div class="e"><b>⑤ Prototype</b>v1: mouse baseline (Fig. 5); v2: phone tilt + sync (Figs. 6–8)</div>
-  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-phone test; A/B user test (§9)</div>
+  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-device walkthrough; proposed A/B study (§9)</div>
   <div class="d"><b>⑦ Extend</b>Real assembly tasks, hot/cold sound and haptics (§7)</div>
   <div class="c"><b>⑧ Polish</b>UI/UX audit, fixed join link (§8)</div>
 </div>
-<p><b>Methods and tools:</b> individual rapid sketching (in-class "10 ideas" technique), team critique in Discord,
-a criteria-based comparison matrix, a storyboard, low-fidelity wireframes in two versions, an interactive
-high-fidelity prototype (React + Three.js), automated unit tests of the sensor mapping, and a within-subjects A/B usability test
-comparing mouse input with phone-tilt input.</p>
+
+<p>
+  <b>Methods and tools:</b>
+  Individual rapid sketching (in-class "10 ideas"
+  technique), iterative feedback from teammates,
+  team critique, a criteria-based comparison matrix,
+  a storyboard, low-fidelity wireframes in two
+  versions, an interactive high-fidelity prototype
+  (React + Three.js), automated unit tests of sensor
+  mapping, a real-device functional walkthrough,
+  and a proposed within-subjects A/B usability study
+  comparing touch/mouse dragging with physical
+  phone rotation.
+</p>
 
 <h2>2 · Divergence: ten interaction concepts</h2>
-<p>Each concept answers the same question in a different way: <i>how can an expert's knowledge of 3D orientation reach a novice
-through the body rather than through words or a shared screen?</i></p>
+
+<p>
+  Each concept answers the same question in a
+  different way:
+  <i>how can an expert's knowledge of 3D orientation
+  reach a novice through the body rather than through
+  words or a shared screen?</i>
+</p>
+
 <div class="grid3 tall">
-  <figure><img src="../design/sketch-images/01-concept-exploration-p1.png"><figcaption><b>Fig. 1a</b> Concepts 1–4: highlight and point; physical phone rotation; path tracing; mirroring the expert's hand motion (webcam).</figcaption></figure>
-  <figure><img src="../design/sketch-images/01-concept-exploration-p2.png"><figcaption><b>Fig. 1b</b> Concepts 5–8: rotate a physical proxy object; copy two-finger gestures; rotate until correct; both control one shared object.</figcaption></figure>
-  <figure><img src="../design/sketch-images/01-concept-exploration-p3.png"><figcaption><b>Fig. 1c</b> Concepts 9–10: inspect a physical object beside its virtual twin; the expert records actions as lessons the beginner follows.</figcaption></figure>
+  <figure>
+    <img src="../design/sketch-images/01-concept-exploration-p1.png">
+    <figcaption>
+      <b>Fig. 1a</b>
+      Concepts 1–4: highlight and point;
+      physical phone rotation; path tracing;
+      mirroring the expert's hand motion (webcam).
+    </figcaption>
+  </figure>
+
+  <figure>
+    <img src="../design/sketch-images/01-concept-exploration-p2.png">
+    <figcaption>
+      <b>Fig. 1b</b>
+      Concepts 5–8: rotate a physical proxy object;
+      copy two-finger gestures; rotate until correct;
+      both control one shared object.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <img src="../design/sketch-images/01-concept-exploration-p3.png">
+    <figcaption>
+      <b>Fig. 1c</b>
+      Concepts 9–10: inspect a physical object beside
+      its virtual twin; the expert records actions as
+      lessons the beginner follows.
+    </figcaption>
+  </figure>
 </div>
 
+<p>
+  <b>Collaborative sketch evaluation.</b>
+  Kevin produced the initial concept sketches and
+  shared them with Ayushi and Prince for feedback.
+
+  This provided a team perspective during early
+  exploration rather than relying only on individual
+  judgment. The concepts were then compared for
+  embodied interaction, their ability to communicate
+  CAD expertise, and their feasibility within the
+  project timeline.
+
+  The sketching process helped the team narrow the
+  problem before committing to implementation.
+</p>
+
 <h2>3 · Convergence: choosing the concept</h2>
-<p>Our first direction, <b>CADSense</b>, was a mouse-driven tutor covering extrude, rotate and scale. The beginner followed on-screen arrows to
-match a target model. When we checked it against the brief and rubric (25% of the grade is creative <i>embodied</i> input and output, and video calls or
-screen sharing as the core interaction are explicitly discouraged), CADSense's mouse input looked conventional. We scored the strongest
-concepts from Fig. 1 against criteria taken directly from the brief.</p>
+
+<p>
+  Our first direction, <b>CADSense</b>, was a
+  mouse-driven tutor covering extrude, rotate and
+  scale. The beginner followed on-screen arrows
+  to match a target model.
+
+  When we checked it against the brief and rubric
+  (25% of the grade is creative <i>embodied</i>
+  input and output, and video calls or screen
+  sharing as the core interaction are explicitly
+  discouraged), CADSense's mouse input looked
+  conventional.
+
+  We scored the strongest concepts from Fig. 1
+  against criteria taken directly from the brief.
+</p>
+
 <table>
-  <tr><th>Concept</th><th>Embodied input</th><th>Embodied output</th><th>Conveys CAD expertise</th><th>Feasible in ~2 weeks</th><th>Reliable live demo</th><th>Total</th></tr>
-  <tr><td>CADSense (mouse + arrows, 3 operations)</td><td class="n">1</td><td class="n">2</td><td class="n">3</td><td class="n">2</td><td class="n">3</td><td class="n">11</td></tr>
-  <tr><td>#3 Object tracing (draw a path)</td><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">3</td><td class="n">3</td><td class="n">10</td></tr>
-  <tr><td>#4 Mirror hand motion (webcam tracking)</td><td class="n">3</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">9</td></tr>
-  <tr><td>#5 Rotate a physical proxy object</td><td class="n">3</td><td class="n">2</td><td class="n">3</td><td class="n">1</td><td class="n">1</td><td class="n">10</td></tr>
-  <tr><td>#8 Both control a shared object</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">10</td></tr>
-  <tr class="win"><td>#2 + #7 + #10 → <b>TiltTwin</b> (phone is the part)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td class="n">2</td><td class="n">13</td></tr>
+  <tr>
+    <th>Concept</th>
+    <th>Embodied input</th>
+    <th>Embodied output</th>
+    <th>Conveys CAD expertise</th>
+    <th>Feasible in ~2 weeks</th>
+    <th>Reliable live demo</th>
+    <th>Total</th>
+  </tr>
+
+  <tr>
+    <td>CADSense (mouse + arrows, 3 operations)</td>
+    <td class="n">1</td>
+    <td class="n">2</td>
+    <td class="n">3</td>
+    <td class="n">2</td>
+    <td class="n">3</td>
+    <td class="n">11</td>
+  </tr>
+
+  <tr>
+    <td>#3 Object tracing (draw a path)</td>
+    <td class="n">2</td>
+    <td class="n">1</td>
+    <td class="n">1</td>
+    <td class="n">3</td>
+    <td class="n">3</td>
+    <td class="n">10</td>
+  </tr>
+
+  <tr>
+    <td>#4 Mirror hand motion (webcam tracking)</td>
+    <td class="n">3</td>
+    <td class="n">2</td>
+    <td class="n">2</td>
+    <td class="n">1</td>
+    <td class="n">1</td>
+    <td class="n">9</td>
+  </tr>
+
+  <tr>
+    <td>#5 Rotate a physical proxy object</td>
+    <td class="n">3</td>
+    <td class="n">2</td>
+    <td class="n">3</td>
+    <td class="n">1</td>
+    <td class="n">1</td>
+    <td class="n">10</td>
+  </tr>
+
+  <tr>
+    <td>#8 Both control a shared object</td>
+    <td class="n">2</td>
+    <td class="n">2</td>
+    <td class="n">2</td>
+    <td class="n">2</td>
+    <td class="n">2</td>
+    <td class="n">10</td>
+  </tr>
+
+  <tr class="win">
+    <td>#2 + #7 + #10 → <b>TiltTwin</b> (phone is the part)</td>
+    <td class="n">3</td>
+    <td class="n">3</td>
+    <td class="n">3</td>
+    <td class="n">2</td>
+    <td class="n">2</td>
+    <td class="n">13</td>
+  </tr>
 </table>
-<p class="meta">Table 1. Scores from 1 (weak) to 3 (strong). <span class="todo">[Team: confirm or adjust scores from your discussion.]</span>
-The proxy-object idea (#5) scored high on embodiment, but it needs tracking hardware or computer vision we could not make reliable in time.
-A phone already carries an orientation sensor, so <b>the phone itself becomes the physical proxy</b>.</p>
-<div class="box"><b>Decision.</b> Merge #2 (physical rotation), #7 (rotate until correct) and #10 (expert creates actions to copy) into
-TiltTwin. We deliberately <b>gave up breadth</b> (extrude and scale) to make one embodied interaction, rotation, complete and polished.
-This also gives a clean A/B comparison with mouse rotation (§9).</div>
+
+<p class="meta">
+  Table 1. Scores from 1 (weak) to 3 (strong).
+  These are qualitative design judgments used to
+  compare concepts against our project constraints,
+  not measured usability results.
+
+  The proxy-object idea (#5) scored high on embodiment,
+  but it requires tracking hardware or computer vision
+  that would be difficult to implement reliably within
+  our timeline.
+
+  A smartphone already contains orientation sensors,
+  allowing <b>the phone itself to become the physical
+  proxy</b>.
+</p>
+
+<div class="box">
+  <b>Decision.</b>
+  Merge #2 (physical rotation), #7 (rotate until correct)
+  and #10 (expert creates actions to copy) into TiltTwin.
+
+  We deliberately <b>gave up breadth</b>
+  (extrude and scale) to make one embodied interaction,
+  rotation, complete and polished.
+
+  This also enables a controlled comparison with
+  mouse-based rotation in a future A/B study (§9).
+</div>
+
 
 <h2>4 · Iteration 1: refining TiltTwin</h2>
 <div class="grid2">
@@ -117,7 +306,14 @@ to convey. We replaced it with three cues that each answer one question:</p>
   <li><b>Which way do I turn?</b> A coloured arc arrow around the highlighted axis, from the current angle to the target.</li>
   <li><b>How far am I?</b> A large live gauge ("22° / 45°") plus colour coding: orange when far, yellow when close, green when matched.</li>
 </ul>
-<p class="meta"><span class="todo">[Team: add any extra reason from your own discussion of transparency.]</span></p>
+
+<p class="meta">
+  Kevin shared the refinement sketches with Ayushi and
+  Prince for feedback during this design stage.
+  The final direction prioritized readable mobile
+  visuals and explicit guidance about rotation direction
+  and angle, rather than overlapping transparent models.
+</p>
 
 <h2>5 · Iteration 2: storyboard and wireframes</h2>
 <div class="grid2">
@@ -138,12 +334,37 @@ Showing "30°/45°" to both gives the expert a precise thing to correct ("15° m
 Running in one tab meant there was no remote collaboration yet. These became the requirements for v2:
 <b>one axis per lesson</b>, <b>continuous feedback</b> and <b>real two-device sync</b>.</p>
 
+
+<p>
+  <b>Collaborative prototyping.</b> Kevin implemented the
+  initial browser-based prototype and shared the evolving
+  interaction with Ayushi and Prince for feedback.
+  The prototype gave the team something concrete to
+  evaluate beyond sketches and wireframes. This process
+  helped identify the limitations of free-form mouse
+  rotation, delayed angle checking, and the absence of
+  communication between separate devices. The next
+  iteration focused on clearer lessons, continuous
+  feedback, and real-time synchronization.
+</p>
+
 <h3>Prototype v2: TiltTwin (final system)</h3>
 <div class="grid2">
   <figure><img src="../design/screenshots/v2-beginner-turning.png"><figcaption><b>Fig. 6a</b> Beginner, mid-rotation. The instruction gives a body-centred hint ("Swing the right edge of the phone away from you"). The Y axis is highlighted, the arc arrow shows the remaining turn, the gauge reads 22°/45°, and everything is yellow because the part is close. The expert's looping demo plays bottom-right.</figcaption></figure>
-  <figure><img src="../design/screenshots/v2-beginner-matched.png"><figcaption><b>Fig. 6b</b> Held within 8° of the target for 0.8 s. The part, frame and gauge turn green, "✓ Matched!" pops in, and the phone chimes and vibrates (multi-sensory output).</figcaption></figure>
+  <figure>
+    <img src="../design/screenshots/v2-beginner-matched.png">
+    <figcaption>
+      <b>Fig. 6b</b>
+      After remaining within 8° of the target for
+      0.8 seconds, the part, frame and gauge turn green,
+      and a matching confirmation appears.
+      An audio chime provides feedback, with haptic
+      feedback attempted where supported.
+    </figcaption>
+  </figure>
 </div>
-<figure><img src="../design/screenshots/v2-expert-matched.png" style="max-height:420px;object-fit:contain"><figcaption><b>Fig. 7</b> Expert view. Left: choose an axis and angle, preview the demonstration loop, and send. Right: a live mirror of the beginner's part, angle readout, quick corrections and a free-text tip. Bottom: the session log records each lesson's input type and completion time (also used for our user test).</figcaption></figure>
+
+<figure><img src="../design/screenshots/v2-expert-matched.png" style="max-height:420px;object-fit:contain"><figcaption><b>Fig. 7</b> Expert view. Left: choose an axis and angle, preview the demonstration loop, and send. Right: a live mirror of the beginner's part, angle readout, quick corrections and a free-text tip. Bottom: the session log records each lesson's input type and completion time (designed to support later usability testing).</figcaption></figure>
 <div class="grid2">
   <figure><img src="../design/screenshots/v2-beginner-message.png"><figcaption><b>Fig. 8a</b> The expert's correction ("Other way!") arrives as a toast. A −90° X lesson shows the arc arrow for the full remaining turn.</figcaption></figure>
   <figure><img src="../design/screenshots/v2-beginner-start.png"><figcaption><b>Fig. 8b</b> Onboarding: how to hold the phone, a rotation-lock tip, and a drag fallback for devices without motion sensors.</figcaption></figure>
@@ -156,16 +377,42 @@ Running in one tab meant there was no remote collaboration yet. These became the
   <tr><td><b>One axis per lesson</b> (swing-twist decomposition isolates rotation around X, Y or Z).</td><td>Hands wobble. Ignoring off-axis wobble keeps feedback stable and matches how CAD tools teach rotation about one axis.</td><td>Matching full orientation (frustrating jitter); Euler angles (gimbal lock near an upright phone).</td></tr>
   <tr><td><b>Calibration</b>: the current pose becomes 0° when a lesson arrives, and a Calibrate button is always available.</td><td>Everyone holds the phone differently. A relative zero avoids compass drift and removes "hold it exactly like this" instructions.</td><td>Absolute compass heading (drifts indoors; differs between phones).</td></tr>
   <tr><td><b>Body-centred hints</b> ("Tilt the top toward you", "Swing the right edge away from you").</td><td>Translates CAD axis language into motor language. Signs are verified by unit tests against the sensor specification.</td><td>Showing only X/Y/Z and ± (abstract for novices).</td></tr>
-  <tr><td><b>8° tolerance, 0.8 s hold</b>.</td><td>Sweeping past the target shouldn't count. 8° is tight enough to be meaningful but achievable by hand.</td><td>A "Check Angle" button (v1, delayed feedback); 5° (too strict by hand). <span class="todo">[Tune after testing]</span></td></tr>
+  
+<tr>
+  <td><b>8° tolerance, 0.8 s hold.</b></td>
+  <td>
+    Passing briefly through the target should not
+    count as successful completion. The tolerance
+    allows small variations in hand positioning,
+    while the hold requirement encourages deliberate
+    control of the rotation.
+  </td>
+  <td>
+    The v1 "Check Angle" button provided delayed
+    feedback. A stricter 5° tolerance was also
+    considered. The selected thresholds were retained
+    for the prototype, with further usability testing
+    needed to evaluate their suitability.
+  </td>
+</tr>
+
   <tr><td><b>Feedback in four channels</b>: colour, number, arrow, sound/vibration.</td><td>The beginner's eyes move between the part and the phone's orientation, so redundant cues help. Vibration confirms success without looking.</td><td>Transparency overlay (dropped, §4).</td></tr>
   <tr><td><b>Quick corrections</b> plus free text for the expert.</td><td>The expert watches a live mirror and must correct within seconds; one-tap phrases are faster than typing.</td><td>Voice or video call (discouraged by the brief; doesn't use the shared model).</td></tr>
   <tr><td><b>Firebase Realtime Database</b> rooms with a 4-letter code.</td><td>Sub-second sync without our own server. Codes avoid confusable characters (no 0/O, 1/I).</td><td>WebRTC peer-to-peer (fails behind some NATs; risky for the live demo).</td></tr>
 </table>
 
 <h2>7 · Iteration 4: from "match an angle" to "make it fit"</h2>
-<p>Once the core interaction worked on real phones, we asked how to make it <b>more useful in real CAD work</b> and <b>more engaging</b>,
-without weakening the embodied core. We listed candidate additions and chose the ones that strengthen embodied output or real-world
-meaning while staying cheap enough to build reliably before the deadline:</p>
+<p>
+  After implementing the core phone-rotation interaction,
+  we explored how to make TiltTwin
+  <b>more useful in real CAD work</b> and
+  <b>more engaging</b>, without weakening the
+  embodied interaction.
+
+  We compared several possible additions and selected
+  features that strengthened the learning experience
+  while remaining feasible within the project timeline:
+</p>
 <table>
   <tr><th>Candidate</th><th>Value</th><th>Cost or risk</th><th>Decision</th></tr>
   <tr><td>Part library</td><td>Beginners practise on parts they will actually model</td><td>Low</td><td class="win">Built</td></tr>
@@ -186,10 +433,19 @@ meaning while staying cheap enough to build reliably before the deadline:</p>
   X/Y/Z axis line; otherwise rotating about that axis would never visibly move it, and the task would be impossible to see.</li>
   <li><b>Hot/cold guidance.</b> While a lesson is active, the phone ticks. The ticks speed up (from ~1 to ~9 per second) and rise in pitch as the part gets
   closer, and stop when it fits. On Android each tick is also a vibration pulse. On iPhone we use the light haptic that iOS 18+ gives when a native
-  switch control is toggled, because Safari has no vibration API. That trick is undocumented, so <b>sound is the guaranteed channel</b>. The beginner can
+  switch control is toggled, because Safari has no vibration API. That trick is undocumented, so <b>sound is the primary fallback where audio playback is permitted</b>. The beginner can
   find the target by ear and by feel while their eyes are on the part. A 🔊 button turns it off.</li>
-  <li><b>Expert side.</b> The expert chooses the part as well as the axis and angle. The demonstration loop and the live mirror both show the mating part.
-  The session log records the part, so the A/B test can cover different parts.</li>
+  <li>
+  <b>Expert side.</b>
+  The expert chooses the part as well as the axis
+  and angle. The demonstration loop and live mirror
+  both display the mating part.
+
+  The session log records the selected part,
+  allowing a future A/B usability study to
+  compare interaction performance across
+  different CAD components.
+</li>
 </ul>
 
 <h2>8 · Iteration 5: usability and visual audit</h2>
@@ -213,43 +469,180 @@ long link per lesson is awkward to send to a phone.</p>
 </div>
 
 <h2>9 · Evaluation</h2>
-<h3>9.1 Technical verification (done)</h3>
+
+<h3>9.1 Technical verification (completed)</h3>
+
 <ul>
-  <li><b>Sensor mapping unit tests</b> (<code>npm test</code>, 6 tests pass): wrap-around at ±180°; twist extraction ignores off-axis wobble;
-  and for portrait and both landscape holds, the physical motion named by each hint produces a positive angle on its axis.
-  The test builds realistic phone poses and converts them to the angles a browser reports.
-  One test initially failed: our assumption about the sign of <code>beta</code> was wrong. We corrected the test against the W3C definition,
-  which confirmed the on-screen hints were right.</li>
-  <li><b>Simulated-sensor runs</b>: synthetic <code>deviceorientation</code> events drove the beginner view through far → close → matched,
-  and the expert view mirrored each state in a second tab.</li>
-  <li><b>Bug found and fixed</b>: the "matched" state never fired, because each sync update created a new lesson object and restarted the 0.8 s hold timer.
-  We fixed it by keying the timer on the lesson id.</li>
-  <li><b>Real devices:</b> <span class="todo">[Team: list the phones and browsers tested, e.g. iPhone 14 / Safari, Pixel 7 / Chrome, and any issues.]</span></li>
+  <li>
+    <b>Automated sensor-mapping tests.</b>
+    The project includes tests for angle wrap-around
+    at ±180°, quaternion twist extraction, and the
+    mapping between physical phone movement and virtual
+    CAD rotation. The tests cover portrait and both
+    landscape phone orientations, checking the expected
+    direction of rotation along X, Y and Z.
+    Additional tests verify that the assembly features
+    move visibly around each rotation axis.
+    These tests helped validate the mathematical
+    foundation of the interaction.
+  </li>
+
+  <li>
+    <b>Simulated sensor testing.</b>
+    During development, simulated
+    <code>deviceorientation</code> events were used
+    to exercise the beginner's rotation controls
+    and feedback states. The expert's synchronized
+    view was also tested using separate browser tabs.
+  </li>
+
+  <li>
+    <b>Bug identified and corrected.</b>
+    An earlier prototype had an issue where repeated
+    synchronization updates restarted the completion
+    timer, preventing the matched state from activating
+    consistently. The timer was updated to use the
+    lesson ID rather than the changing lesson object.
+  </li>
+
+  <li>
+    <b>Real-device testing — October 21, 2026.</b>
+    Kevin tested the deployed application with an
+    iPad acting as the expert and a smartphone acting
+    as the beginner. Both devices used Safari.
+
+    The devices successfully connected through a
+    shared lesson session. The beginner used physical
+    phone-motion controls to rotate the virtual CAD
+    part, and the observed movements behaved in the
+    expected directions. Communication between the
+    expert and beginner devices worked during the test.
+  </li>
 </ul>
 
-<h3>9.2 Usability test: mouse (A) vs. phone tilt (B)</h3>
-<p><b>Protocol.</b> Within-subjects, counterbalanced (half start with A). Each participant gets three lessons per condition
-(e.g. bracket Y +45°, elbow X −90°, gear Z +90°) from a team member acting as the expert. The session log records completion time; we note wrong-direction starts,
-expert corrections sent, and a 1–5 rating for "I understood which way to rotate". Condition A is TiltTwin's
-<b>drag mode</b>, so the only difference is the input modality. Participants: <span class="todo">[n = ?, who]</span>.</p>
-<table>
-  <tr><th>Measure</th><th>A · Mouse/touch drag</th><th>B · Phone tilt</th><th>Notes</th></tr>
-  <tr><td>Mean completion time (s)</td><td class="todo">[ ]</td><td class="todo">[ ]</td><td></td></tr>
-  <tr><td>Wrong-direction starts (total)</td><td class="todo">[ ]</td><td class="todo">[ ]</td><td></td></tr>
-  <tr><td>Expert corrections sent</td><td class="todo">[ ]</td><td class="todo">[ ]</td><td></td></tr>
-  <tr><td>"Understood the axis" (1–5, mean)</td><td class="todo">[ ]</td><td class="todo">[ ]</td><td></td></tr>
-  <tr><td>Preferred condition (count)</td><td class="todo">[ ]</td><td class="todo">[ ]</td><td></td></tr>
-</table>
-<p><b>Observations and quotes:</b> <span class="todo">[What surprised you? Where did people hesitate? Any quotes?]</span></p>
-<p><b>Changes made because of testing:</b></p>
+<div class="box">
+  <b>Verification outcome.</b>
+  The real-device walkthrough demonstrated that
+  TiltTwin's core expertise-sharing interaction
+  works beyond a simulated browser environment.
+  An expert can deliver a CAD rotation task remotely,
+  while the beginner manipulates a virtual model
+  through physical phone movement.
+
+  This establishes functional feasibility on the
+  tested devices, but does not by itself establish
+  learning effectiveness or compatibility with
+  every smartphone and browser.
+</div>
+
+<h3>9.2 Exploratory evaluation and proposed A/B study</h3>
+
+<p>
+  <b>Completed exploratory evaluation.</b>
+  Our initial hands-on evaluation focused on whether
+  TiltTwin's central interaction could be performed
+  successfully using two separate devices.
+  The iPad and smartphone Safari test confirmed
+  successful session communication and the expected
+  physical-to-virtual rotation behaviour.
+
+  This was a functional walkthrough rather than
+  a controlled usability study. No quantitative
+  completion-time or user-preference dataset was
+  collected during this walkthrough.
+</p>
+
+<p>
+  <b>Proposed A/B usability study.</b>
+  To evaluate whether physical phone rotation helps
+  beginners understand spatial manipulation,
+  we designed a within-subjects comparison between
+  two input methods:
+</p>
+
 <ul>
-  <li><b>Y-axis hint reworded.</b> In our first real-phone test, X and Z lessons were completed as instructed, but for Y the
-  tester moved the opposite way. The original hint, "Turn the phone to the left", can be read two ways: the phone turning left
-  (its screen ends up facing right) or the screen turning to face left. We checked the sensor maths against the W3C angle
-  definitions for portrait and both landscape holds (now automated tests). The rotation itself was correct, so the
-  ambiguity was in the words. The hint now names a specific edge: "Swing the right edge of the phone away from you".</li>
-  <li><span class="todo">[Add further changes from the A/B session.]</span></li>
+  <li>
+    <b>Condition A — Touch/mouse dragging:</b>
+    The beginner rotates the CAD part using
+    the application's drag controls.
+  </li>
+
+  <li>
+    <b>Condition B — Physical phone rotation:</b>
+    The beginner completes equivalent tasks
+    by physically rotating a smartphone.
+  </li>
 </ul>
+
+<p>
+  Participants would complete comparable rotation
+  tasks in both conditions, such as Y +45°,
+  X −90° and Z +90°. The order would be
+  counterbalanced to reduce learning effects.
+  An expert would send the instructions and
+  observe each participant's progress.
+</p>
+
+<table>
+  <tr>
+    <th>Measure</th>
+    <th>Planned collection method</th>
+    <th>Purpose</th>
+  </tr>
+  <tr>
+    <td>Completion time</td>
+    <td>Session log for each completed task</td>
+    <td>Compare task efficiency</td>
+  </tr>
+  <tr>
+    <td>Wrong-direction starts</td>
+    <td>Observer records initial movement errors</td>
+    <td>Evaluate directional understanding</td>
+  </tr>
+  <tr>
+    <td>Expert corrections</td>
+    <td>Count corrections sent during each task</td>
+    <td>Estimate guidance requirements</td>
+  </tr>
+  <tr>
+    <td>Axis understanding</td>
+    <td>Participant rating from 1 to 5</td>
+    <td>Evaluate perceived spatial understanding</td>
+  </tr>
+  <tr>
+    <td>Preferred input method</td>
+    <td>Participant preference and short comments</td>
+    <td>Compare subjective experience</td>
+  </tr>
+</table>
+
+<p>
+  <b>Earlier design refinement: Y-axis guidance.</b>
+  During development, the Y-axis instruction was
+  changed from the ambiguous phrase "Turn the phone
+  to the left" to the more explicit direction
+  "Swing the right edge of the phone away from you."
+
+  The original phrase could be interpreted in
+  multiple ways, whereas the revised instruction
+  refers to a specific physical edge of the phone.
+  The final Safari walkthrough reported movement
+  directions behaving as expected.
+</p>
+
+<p>
+  <b>Evaluation limitations.</b>
+  A complete comparative usability dataset was
+  not available for this report. We therefore do
+  not claim that phone tilt is faster, easier,
+  or educationally superior to mouse input.
+
+  Our completed walkthrough provides evidence of
+  technical feasibility. The proposed A/B study
+  describes how future testing could evaluate
+  the learning experience more rigorously.
+</p>
+
 
 <h2>10 · Known limitations and incomplete functionality</h2>
 <ul>
@@ -263,12 +656,182 @@ expert corrections sent, and a 1–5 rating for "I understood which way to rotat
   <li>The expert's session log lives in that browser tab and is lost on reload; use "Copy CSV" to keep it.</li>
 </ul>
 
+
 <h2>11 · Credits and AI use</h2>
-<p>Sketches, storyboard and wireframes: <span class="todo">[names]</span>. Baseline prototype: <span class="todo">[names]</span>.
-Built with React, TypeScript, Three.js (react-three-fiber, drei), Firebase Realtime Database and Vite.
-<b>AI assistance:</b> Claude (Anthropic) was used to implement parts of the v2 prototype (phone-orientation hook, sync layer, feedback UI),
-write the unit tests, generate screenshots, and draft this document. All design decisions were made and reviewed by the team.
-<span class="todo">[Team: adjust to match your actual use.]</span></p>
+
+<p>
+  <b>Team contributions.</b>
+  Initial sketches, storyboard and wireframes:
+  Kevin, with feedback from Ayushi and Prince.
+
+  Baseline prototype: Kevin, with teammate feedback
+  during prototyping and refinement.
+
+  Implementation of assigned GitHub issues:
+  Ayushi and Prince.
+
+  Video presentation: Ayushi.
+
+  Final deliverable: Kevin, Ayushi and Prince.
+</p>
+
+<p>
+  <b>Technologies.</b>
+  Built with React, TypeScript, Three.js
+  (react-three-fiber and drei),
+  Firebase Realtime Database and Vite.
+</p>
+
+<p>
+  <b>Claude (Anthropic) assistance.</b>
+  Claude was used to implement parts of the
+  v2 prototype, including the phone-orientation
+  hook, synchronization layer and feedback UI.
+  It also assisted with unit tests, screenshots
+  and drafting the design-process document.
+</p>
+
+<h3>ChatGPT assistance — Project planning and GitHub issues</h3>
+
+<p>
+  ChatGPT (OpenAI) was used to help organize the
+  implementation of TiltTwin into ten GitHub issues.
+  This included breaking the project into manageable
+  tasks, identifying development priorities and
+  dependencies, and drafting issue descriptions
+  for the web application, phone orientation tracking,
+  visual guidance, expert controls, real-time
+  synchronization, correctness feedback, design
+  documentation, usability testing, final PDF
+  and deployment.
+</p>
+
+<div class="box">
+  <b>Reconstructed example prompt
+  (illustrative, not a verbatim transcript):</b>
+
+  <p>
+    Help me organize our CPSC 581 group project,
+    TiltTwin, into GitHub issues. The application
+    lets an expert teach CAD rotations to a beginner
+    using physical smartphone motion.
+
+    Break the implementation into manageable tasks
+    with clear descriptions, priorities, labels
+    and acceptance criteria.
+
+    Include the frontend, phone sensors, visual
+    feedback, real-time communication, documentation,
+    testing and final deliverables.
+  </p>
+</div>
+
+<p>
+  The generated task structure was reviewed and
+  used to guide development. ChatGPT also assisted
+  with frontend implementation guidance and
+  debugging during the baseline prototype.
+
+  All AI-generated suggestions and code were
+  subject to team review. Project design decisions,
+  implementation choices, testing and the final
+  submitted work remained the responsibility
+  of the team.
+</p>
+
+
+<h3>ChatGPT assistance — Final design-process deliverable</h3>
+
+<p>
+  ChatGPT (OpenAI) was also used to assist with reviewing,
+  editing and refining the final TiltTwin design-process
+  report. This included identifying incomplete sections,
+  improving written explanations, and suggesting revisions
+  to the technical evaluation, usability testing,
+  design iterations and team contributions.
+</p>
+
+<p>
+  ChatGPT helped document the successful real-device test
+  using an iPad as the expert and a smartphone as the
+  beginner, both running Safari. It also helped distinguish
+  completed testing from proposed usability studies,
+  avoiding unsupported claims or invented results.
+</p>
+
+<p>
+  During the final editing process, ChatGPT provided
+  copy-and-paste HTML revisions designed to preserve
+  the report's existing styling, figures, tables and
+  section structure. These revisions also documented
+  how Kevin incorporated feedback from Ayushi and Prince
+  during initial sketching and prototyping.
+</p>
+
+<div class="box">
+  <b>Reconstructed example prompt 1 —
+  Reviewing the final design-process report
+  (illustrative, not a verbatim transcript):</b>
+
+  <p>
+    Review our existing CPSC 581 TiltTwin design-process
+    report and identify sections that should be improved
+    before final submission.
+
+    Help me strengthen the technical verification and
+    usability evaluation sections using our actual
+    testing results. We tested TiltTwin with an iPad
+    as the expert and a smartphone as the beginner,
+    both using Safari, and the physical motion
+    controls behaved as expected.
+
+    Clearly distinguish completed tests from proposed
+    usability studies. Do not invent participant
+    numbers, completion times or survey results.
+  </p>
+</div>
+
+<div class="box">
+  <b>Reconstructed example prompt 2 —
+  Editing HTML and documenting design feedback
+  (illustrative, not a verbatim transcript):</b>
+
+  <p>
+    Help me update the HTML source of our TiltTwin
+    design-process report while preserving its
+    existing formatting, images, tables and layout.
+
+    Provide complete, copy-and-paste HTML sections
+    for the necessary revisions. Explain how I
+    created the initial sketches and baseline
+    prototype while regularly consulting my
+    teammates, Ayushi and Prince, for feedback
+    during design exploration and prototyping.
+
+    Also improve the credits and AI-use disclosure
+    to accurately acknowledge assistance from
+    ChatGPT and Claude. Explain each proposed
+    change clearly so I can review and apply
+    the edits myself without automatically
+    modifying our GitHub repository.
+  </p>
+</div>
+
+<p>
+  <b>Review and responsibility.</b>
+  ChatGPT's contributions were limited to writing,
+  editing assistance, documentation review and
+  suggested code changes. The team reviewed the
+  suggestions and remained responsible for the
+  accuracy of the report, design decisions,
+  implementation, testing and final submission.
+
+  The reconstructed prompts above illustrate
+  the types of requests made during development
+  and documentation. They are not presented
+  as exact historical transcripts.
+</p>
+
 
 </body>
 </html>
