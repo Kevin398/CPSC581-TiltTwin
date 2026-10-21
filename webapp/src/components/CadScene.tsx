@@ -1,9 +1,12 @@
 import { useEffect } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import CadModel from './CadModel'
+import { Mate } from './Parts'
+import type { PartId } from '../utils/parts'
 import {
   AXIS_COLORS,
   CAMERA_POSITION,
+  axisRotation,
   STATUS_COLORS,
   TOLERANCE,
   wrapDegrees,
@@ -12,6 +15,7 @@ import {
 } from '../utils/rotationMath'
 
 type CadSceneProps = {
+  part: PartId
   axis: Axis
   angle: number
   target: number | null
@@ -22,6 +26,7 @@ type CadSceneProps = {
 }
 
 export default function CadScene({
+  part,
   axis,
   angle,
   target,
@@ -44,11 +49,20 @@ export default function CadScene({
 
       {target !== null && <AxisLine axis={axis} />}
 
+      {target !== null && (
+        <Mate
+          part={part}
+          orientation={axisRotation(axis, target)}
+          color={status === 'done' ? STATUS_COLORS.done : '#94a3b8'}
+        />
+      )}
+
       {target !== null && !demo && Math.abs(remaining) > TOLERANCE && (
         <TurnArrow axis={axis} from={angle} sweep={remaining} color={STATUS_COLORS[status]} />
       )}
 
       <CadModel
+        part={part}
         axis={axis}
         angle={angle}
         tint={STATUS_COLORS[status]}

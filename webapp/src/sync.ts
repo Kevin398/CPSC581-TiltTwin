@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { getDatabase, onValue, ref, update } from 'firebase/database'
+import type { PartId } from './utils/parts'
 import type { Axis } from './utils/rotationMath'
 
-export type Lesson = { id: number; axis: Axis; angle: number }
+// `part` is optional so lessons from older builds still load (as the bracket).
+export type Lesson = { id: number; axis: Axis; angle: number; part?: PartId }
 
 export type BeginnerState = {
   angle: number

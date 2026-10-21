@@ -3,10 +3,12 @@
 **CPSC 581 · Fall 2026 · Group Project 2: Expertise Sharing**
 
 TiltTwin lets a CAD expert teach a beginner 3D rotations remotely, through physical motion.
-The expert picks an axis and an angle and sends it. The beginner reproduces the rotation by
+The expert picks a **part** (L-bracket, pipe elbow, gear or wrench), an axis and an angle, and sends it as an assembly task,
+such as *“Connect the elbow to the pipe”*. The beginner reproduces the rotation by
 **physically turning their phone**: the part on screen turns with the phone. Both sides see
-live feedback: a turn arrow, an angle gauge and colour changes. When the part is held on target, both
-screens show ✓, the phone chimes and vibrates, and the expert's session log records the time.
+live feedback: a turn arrow, an angle gauge, colour changes, and **hot/cold ticks** that speed up as you get closer
+(vibration on Android, best-effort haptics on iPhone). When the part fits its mating part, both
+screens show ✓, the phone chimes, and the expert's session log records the time.
 
 - **Live app:** https://tilttwin.vercel.app
 - **Demo video:** _add link here_
@@ -22,7 +24,7 @@ screens show ✓, the phone chimes and vibrates, and the expert's session log re
 2. **Beginner** opens the app on a phone → enters the code → **Start with phone motion**
    (on iPhone, tap **Allow** when asked for motion access).
 3. Beginner holds the phone sideways in front of them, as if holding the part.
-4. Expert picks an **axis** (X/Y/Z) and an **angle** and presses **Send instruction**.
+4. Expert picks a **part**, an **axis** (X/Y/Z) and an **angle**, then presses **Send instruction**.
    The phone buzzes, recalibrates to 0°, and shows the expert's looping demo in the corner.
 5. Beginner turns the phone. Follow the hint (e.g. *“Swing the right edge of the phone away from you”*), the arrow
    and the gauge. Hold on target for ~1 s → **✓ Matched!** on both screens.
@@ -34,7 +36,9 @@ No motion sensor (or a laptop)? Choose **Use touch / mouse drag** instead.
 
 - Must be served over **HTTPS** (Vercel does this). Browsers block motion sensors on plain HTTP.
 - iPhone: Safari or Chrome; motion permission is requested on tap.
-- Android: Chrome. Vibration only works on Android (iOS has no web vibration API).
+- Android: Chrome, with vibration on every hot/cold tick.
+- iPhone: hot/cold **sound** (turn the silent switch off). There's also a light haptic on iOS 18+, through an
+  undocumented Safari behaviour.
 - Turn on **rotation lock**, so the screen doesn't flip when you turn the phone around Z.
 
 ## Run locally
@@ -89,7 +93,9 @@ Optional: in the Vercel dashboard, open Project → Settings → Git and connect
 | `webapp/src/sync.ts` | `useRoom()`: Firebase Realtime Database room, or `localStorage` fallback |
 | `webapp/src/views/ExpertView.tsx` | Lesson controls, live mirror of the beginner, corrections, results log |
 | `webapp/src/views/BeginnerView.tsx` | Full-screen phone HUD: instruction, hint, gauge, demo, ✓ |
-| `webapp/src/components/CadScene.tsx` | Three.js scene: part, axis line, turn arrow |
+| `webapp/src/components/CadScene.tsx` | Three.js scene: part, mating part, axis line, turn arrow |
+| `webapp/src/utils/parts.ts` + `components/Parts.tsx` | Part library: each part's shape, feature and mating part |
+| `webapp/src/utils/feedback.ts` | Chime, hot/cold ticks, vibration and iOS haptic trick |
 | `webapp/tests/rotationMath.test.ts` | Checks that the physical phone motions map to the right sign and axis |
 
 ## Known limitations

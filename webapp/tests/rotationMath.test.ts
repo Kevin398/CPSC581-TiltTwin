@@ -10,6 +10,7 @@ import {
   wrapDegrees,
   type Axis,
 } from '../src/utils/rotationMath.ts'
+import { PARTS } from '../src/utils/parts.ts'
 
 const near = (actual: number, expected: number) =>
   assert.ok(Math.abs(actual - expected) < 0.5, `${actual} ≉ ${expected}`)
@@ -71,4 +72,14 @@ test('the +Y motion really is "right edge away from you"', () => {
   // Rotating the screen-right axis (East) counter-clockwise from above moves it North: away.
   const rightEdge = E.clone().applyAxisAngle(U, MathUtils.degToRad(30))
   assert.ok(rightEdge.y > 0)
+})
+
+test('every part feature moves under rotation about any axis', () => {
+  // A feature on an axis line would sit still, so the fit task would be invisible.
+  for (const [id, part] of Object.entries(PARTS)) {
+    const [x, y, z] = part.feature.position
+    for (const [axis, offAxis] of [['x', Math.hypot(y, z)], ['y', Math.hypot(x, z)], ['z', Math.hypot(x, y)]] as const) {
+      assert.ok(offAxis > 0.15, `${id} feature is on the ${axis} axis`)
+    }
+  }
 })

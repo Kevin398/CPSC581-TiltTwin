@@ -384,6 +384,12 @@ th {
   font-size: 1.15rem;
 }
 
+.sub-task {
+  margin-top: 2px !important;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .hint {
   margin-top: 4px !important;
   color: var(--status);

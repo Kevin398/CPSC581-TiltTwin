@@ -3,9 +3,12 @@ import { useFrame } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import type { Group } from 'three'
 import { useModelDrag } from '../hooks/useModelDrag'
+import type { PartId } from '../utils/parts'
 import { axisRotation, type Axis } from '../utils/rotationMath'
+import { PartModel } from './Parts'
 
 type CadModelProps = {
+  part: PartId
   axis: Axis
   angle: number
   tint: string
@@ -15,9 +18,6 @@ type CadModelProps = {
   onDragRotate?: (pitch: number, yaw: number) => void
 }
 
-const CENTER_X = -0.36
-const CENTER_Y = -0.13
-
 // Large enough to enclose the bracket at any orientation.
 const INTERACTION_RADIUS = 1.65
 
@@ -25,6 +25,7 @@ const DEMO_MOVE_S = 2
 const DEMO_HOLD_S = 1.2
 
 export default function CadModel({
+  part,
   axis,
   angle,
   tint,
@@ -65,24 +66,7 @@ export default function CadModel({
         </>
       )}
 
-      {/* L-bracket, centred around its pivot. */}
-      <group position={[-CENTER_X, -CENTER_Y, 0]}>
-        <mesh position={[0, -0.5, 0]}>
-          <boxGeometry args={[2, 0.3, 1]} />
-          <meshStandardMaterial color={tint} />
-        </mesh>
-
-        <mesh position={[-0.85, 0.35, 0]}>
-          <boxGeometry args={[0.3, 1.5, 1]} />
-          <meshStandardMaterial color={tint} roughness={0.4} />
-        </mesh>
-
-        {/* Mounting hole marks the "front" so orientation is unambiguous. */}
-        <mesh position={[0.45, -0.34, 0]}>
-          <cylinderGeometry args={[0.18, 0.18, 0.04, 24]} />
-          <meshStandardMaterial color="#0f172a" />
-        </mesh>
-      </group>
+      <PartModel part={part} tint={tint} />
     </group>
   )
 }

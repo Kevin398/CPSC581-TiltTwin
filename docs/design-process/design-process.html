@@ -64,7 +64,8 @@
   <div class="d"><b>③ Refine</b>5 refinement sketches; drop transparency (Fig. 2)</div>
   <div class="c"><b>④ Specify</b>Storyboard; wireframes v1 → v2 (Figs. 3–4)</div>
   <div class="e"><b>⑤ Prototype</b>v1: mouse baseline (Fig. 5); v2: phone tilt + sync (Figs. 6–8)</div>
-  <div class="e"><b>⑥ Evaluate</b>Technical checks; A/B user test (§7)</div>
+  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-phone test; A/B user test (§8)</div>
+  <div class="d"><b>⑦ Extend</b>Real assembly tasks, hot/cold sound and haptics (§8)</div>
 </div>
 <p><b>Methods and tools:</b> individual rapid sketching (in-class "10 ideas" technique), team critique in Discord,
 a criteria-based comparison matrix, a storyboard, low-fidelity wireframes in two versions, an interactive
@@ -99,7 +100,7 @@ The proxy-object idea (#5) scored high on embodiment, but it needs tracking hard
 A phone already carries an orientation sensor, so <b>the phone itself becomes the physical proxy</b>.</p>
 <div class="box"><b>Decision.</b> Merge #2 (physical rotation), #7 (rotate until correct) and #10 (expert creates actions to copy) into
 TiltTwin. We deliberately <b>gave up breadth</b> (extrude and scale) to make one embodied interaction, rotation, complete and polished.
-This also gives a clean A/B comparison with mouse rotation (§7).</div>
+This also gives a clean A/B comparison with mouse rotation (§8).</div>
 
 <h2>4 · Iteration 1: refining TiltTwin</h2>
 <div class="grid2">
@@ -158,8 +159,38 @@ Running in one tab meant there was no remote collaboration yet. These became the
   <tr><td><b>Firebase Realtime Database</b> rooms with a 4-letter code.</td><td>Sub-second sync without our own server. Codes avoid confusable characters (no 0/O, 1/I).</td><td>WebRTC peer-to-peer (fails behind some NATs; risky for the live demo).</td></tr>
 </table>
 
-<h2>7 · Evaluation</h2>
-<h3>7.1 Technical verification (done)</h3>
+<h2>7 · Iteration 4: from "match an angle" to "make it fit"</h2>
+<p>Once the core interaction worked on real phones, we asked how to make it <b>more useful in real CAD work</b> and <b>more engaging</b>,
+without weakening the embodied core. We listed candidate additions and chose the ones that strengthen embodied output or real-world
+meaning while staying cheap enough to build reliably before the deadline:</p>
+<table>
+  <tr><th>Candidate</th><th>Value</th><th>Cost or risk</th><th>Decision</th></tr>
+  <tr><td>Part library</td><td>Beginners practise on parts they will actually model</td><td>Low</td><td class="win">Built</td></tr>
+  <tr><td>Assembly "fit" task with a mating part</td><td>Gives the rotation a purpose: in CAD assemblies you orient a part so it mates with another</td><td>Medium</td><td class="win">Built</td></tr>
+  <tr><td>Hot/cold vibration</td><td>Feel the answer without looking: strong embodied output</td><td>iPhone Safari has no vibration API</td><td class="win">Built, with sound as the guaranteed channel</td></tr>
+  <tr><td>Stars and streaks</td><td>Fun and motivating</td><td>Low, but weak link to expertise sharing</td><td>Deferred</td></tr>
+</table>
+<div class="grid2">
+  <figure><img src="../design/screenshots/v3-part-bracket.png"><figcaption><b>Fig. 9a</b> L-bracket: line its hole up with the bolt (X axis).</figcaption></figure>
+  <figure><img src="../design/screenshots/v3-part-elbow.png"><figcaption><b>Fig. 9b</b> Pipe elbow: connect its outlet to the pipe (Y axis).</figcaption></figure>
+  <figure><img src="../design/screenshots/v3-part-gear.png"><figcaption><b>Fig. 9c</b> Gear: slide its pin hole onto the pin (Z axis).</figcaption></figure>
+  <figure><img src="../design/screenshots/v3-part-wrench.png"><figcaption><b>Fig. 9d</b> Wrench: fit the jaws onto the nut (−90° about Y). The arrow shows a clockwise turn.</figcaption></figure>
+</div>
+<ul>
+  <li><b>Mating parts, not a ghost.</b> Each part has a <i>feature</i> (a hole, an outlet or the jaws), and a solid mating part (a bolt, pipe, pin or nut)
+  is fixed where that feature will be at the target. This keeps the decision from §4: no transparent overlay. It also turns an abstract angle into a
+  physical goal, and the moment of success becomes "it clicks into place". A unit test checks that no feature sits on an
+  X/Y/Z axis line; otherwise rotating about that axis would never visibly move it, and the task would be impossible to see.</li>
+  <li><b>Hot/cold guidance.</b> While a lesson is active, the phone ticks. The ticks speed up (from ~1 to ~9 per second) and rise in pitch as the part gets
+  closer, and stop when it fits. On Android each tick is also a vibration pulse. On iPhone we use the light haptic that iOS 18+ gives when a native
+  switch control is toggled, because Safari has no vibration API. That trick is undocumented, so <b>sound is the guaranteed channel</b>. The beginner can
+  find the target by ear and by feel while their eyes are on the part. A 🔊 button turns it off.</li>
+  <li><b>Expert side.</b> The expert chooses the part as well as the axis and angle. The demonstration loop and the live mirror both show the mating part.
+  The session log records the part, so the A/B test can cover different parts.</li>
+</ul>
+
+<h2>8 · Evaluation</h2>
+<h3>8.1 Technical verification (done)</h3>
 <ul>
   <li><b>Sensor mapping unit tests</b> (<code>npm test</code>, 6 tests pass): wrap-around at ±180°; twist extraction ignores off-axis wobble;
   and for portrait and both landscape holds, the physical motion named by each hint produces a positive angle on its axis.
@@ -173,9 +204,9 @@ Running in one tab meant there was no remote collaboration yet. These became the
   <li><b>Real devices:</b> <span class="todo">[Team: list the phones and browsers tested, e.g. iPhone 14 / Safari, Pixel 7 / Chrome, and any issues.]</span></li>
 </ul>
 
-<h3>7.2 Usability test: mouse (A) vs. phone tilt (B)</h3>
+<h3>8.2 Usability test: mouse (A) vs. phone tilt (B)</h3>
 <p><b>Protocol.</b> Within-subjects, counterbalanced (half start with A). Each participant gets three lessons per condition
-(Y +45°, X −90°, Z +90°) from a team member acting as the expert. The session log records completion time; we note wrong-direction starts,
+(e.g. bracket Y +45°, elbow X −90°, gear Z +90°) from a team member acting as the expert. The session log records completion time; we note wrong-direction starts,
 expert corrections sent, and a 1–5 rating for "I understood which way to rotate". Condition A is TiltTwin's
 <b>drag mode</b>, so the only difference is the input modality. Participants: <span class="todo">[n = ?, who]</span>.</p>
 <table>
@@ -197,19 +228,19 @@ expert corrections sent, and a 1–5 rating for "I understood which way to rotat
   <li><span class="todo">[Add further changes from the A/B session.]</span></li>
 </ul>
 
-<h2>8 · Known limitations and incomplete functionality</h2>
+<h2>9 · Known limitations and incomplete functionality</h2>
 <ul>
   <li><b>One axis per lesson</b> (by design). Compound rotations would be a sequence of lessons.</li>
-  <li><b>Rotation only</b>: no extrusion or scaling, and no import of real Blender or Fusion files; the part is a predefined L-bracket.</li>
+  <li><b>Rotation only</b>: no extrusion or scaling, and no import of real Blender or Fusion files. There are four predefined parts (bracket, pipe elbow, gear, wrench).</li>
+  <li><b>iPhone haptics</b> rely on an undocumented iOS 18+ behaviour and may not fire on older iOS. Hot/cold <b>sound</b> always works, but is muted when the iPhone's silent switch is on.</li>
   <li><b>One expert and one beginner per room.</b> A second beginner would overwrite the first one's progress.</li>
   <li><b>Y-axis drift</b>: turning left/right relies on the gyroscope and compass and can drift slowly on some phones. Press Calibrate to fix it.</li>
   <li><b>Screen auto-rotation</b>: large Z-axis turns can make the phone flip its layout unless rotation lock is on. The mapping stays correct, but the HUD jumps.</li>
-  <li><b>No vibration on iPhone</b> (iOS has no web vibration API). The chime and visual feedback still work.</li>
   <li><b>Security</b>: rooms are open to anyone with the code, and the database rules only validate shape. This is acceptable for a class demo, not for production.</li>
   <li>The expert's session log lives in that browser tab and is lost on reload; use "Copy CSV" to keep it.</li>
 </ul>
 
-<h2>9 · Credits and AI use</h2>
+<h2>10 · Credits and AI use</h2>
 <p>Sketches, storyboard and wireframes: <span class="todo">[names]</span>. Baseline prototype: <span class="todo">[names]</span>.
 Built with React, TypeScript, Three.js (react-three-fiber, drei), Firebase Realtime Database and Vite.
 <b>AI assistance:</b> Claude (Anthropic) was used to implement parts of the v2 prototype (phone-orientation hook, sync layer, feedback UI),

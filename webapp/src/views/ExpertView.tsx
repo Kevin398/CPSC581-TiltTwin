@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import CadScene from '../components/CadScene'
 import { useRoom } from '../sync'
 import { chime } from '../utils/feedback'
+import { PART_IDS, PARTS, isPartId, type PartId } from '../utils/parts'
 import { AXES, AXIS_COLORS, AXIS_HINTS, matchStatus, type Axis } from '../utils/rotationMath'
 
 const ANGLES = [-90, -45, 45, 90, 180]
@@ -10,10 +11,11 @@ const CORRECTIONS = ['Other way!', 'Keep going', 'Almost there', 'Slow down', 'R
 // Beginner counts as offline after this long without an update.
 const OFFLINE_AFTER_MS = 4000
 
-type Result = { lessonId: number; axis: Axis; angle: number; mode: string; seconds: number }
+type Result = { lessonId: number; part: PartId; axis: Axis; angle: number; mode: string; seconds: number }
 
 export default function ExpertView({ roomId }: { roomId: string }) {
   const [room, patch] = useRoom(roomId)
+  const [part, setPart] = useState<PartId>('bracket')
   const [axis, setAxis] = useState<Axis>('y')
   const [angle, setAngle] = useState(45)
   const [message, setMessage] = useState('')
@@ -23,6 +25,7 @@ export default function ExpertView({ roomId }: { roomId: string }) {
   const lesson = room.lesson && room.lesson.axis in AXES ? room.lesson : null
   const beginner = room.beginner
   const working = beginner && lesson && beginner.lessonId === lesson.id ? beginner : null
+  const lessonPart = isPartId(lesson?.part) ? lesson.part : 'bracket'
 
   // Clock-skew-proof presence: watch for *new* heartbeats using our own clock.
   const beat = useRef({ latest: 0, seen: 0, at: 0 })
@@ -40,7 +43,7 @@ export default function ExpertView({ roomId }: { roomId: string }) {
 
   const doneId = working?.done && lesson ? lesson.id : null
   if (doneId && lesson && working && !results.some((r) => r.lessonId === doneId)) {
-    setResults([...results, { lessonId: doneId, axis: lesson.axis, angle: lesson.angle, mode: working.mode, seconds: working.seconds }])
+    setResults([...results, { lessonId: doneId, part: lessonPart, axis: lesson.axis, angle: lesson.angle, mode: working.mode, seconds: working.seconds }])
   }
   useEffect(() => {
     if (doneId) chime()
@@ -49,7 +52,7 @@ export default function ExpertView({ roomId }: { roomId: string }) {
   const joinUrl = `${location.origin}${location.pathname}?role=beginner&room=${roomId}`
 
   function sendLesson() {
-    patch({ lesson: { id: Date.now(), axis, angle }, message: null })
+    patch({ lesson: { id: Date.now(), part, axis, angle }, message: null })
   }
 
   function sendMessage(text: string) {
@@ -59,8 +62,8 @@ export default function ExpertView({ roomId }: { roomId: string }) {
   }
 
   function copyResults() {
-    const rows = results.map((r, i) => [i + 1, r.axis.toUpperCase(), r.angle, r.mode, r.seconds].join(','))
-    navigator.clipboard?.writeText(['#,axis,angle,mode,seconds', ...rows].join('\n'))
+    const rows = results.map((r, i) => [i + 1, r.part, r.axis.toUpperCase(), r.angle, r.mode, r.seconds].join(','))
+    navigator.clipboard?.writeText(['#,part,axis,angle,mode,seconds', ...rows].join('\n'))
   }
 
   const status = working ? matchStatus(working.angle, lesson!.angle, working.done) : 'idle'
@@ -83,6 +86,15 @@ export default function ExpertView({ roomId }: { roomId: string }) {
       <div className="expert-grid">
         <div className="panel">
           <h2>1 · Demonstrate</h2>
+          <fieldset className="choice">
+            <legend>Part</legend>
+            {PART_IDS.map((p) => (
+              <button key={p} type="button" aria-pressed={part === p} onClick={() => setPart(p)}>
+                {PARTS[p].name}
+              </button>
+            ))}
+          </fieldset>
+
           <fieldset className="choice">
             <legend>Rotation axis</legend>
             {(Object.keys(AXES) as Axis[]).map((a) => (
@@ -108,10 +120,10 @@ export default function ExpertView({ roomId }: { roomId: string }) {
           </fieldset>
 
           <div className="stage small">
-            <CadScene axis={axis} angle={0} target={angle} status="idle" showAxes demo />
+            <CadScene part={part} axis={axis} angle={0} target={angle} status="idle" showAxes demo />
           </div>
           <p className="muted">
-            Beginner will be told: “{AXIS_HINTS[axis][angle > 0 ? 0 : 1]}”
+            Task: “{PARTS[part].task}”. Hint: “{AXIS_HINTS[axis][angle > 0 ? 0 : 1]}”
           </p>
 
           <div className="row">
@@ -129,6 +141,7 @@ export default function ExpertView({ roomId }: { roomId: string }) {
           <div className={`stage live status-${status}`}>
             {lesson ? (
               <CadScene
+                part={lessonPart}
                 axis={lesson.axis}
                 angle={working?.angle ?? 0}
                 target={lesson.angle}
@@ -137,7 +150,7 @@ export default function ExpertView({ roomId }: { roomId: string }) {
             ) : (
               <p className="empty">Send an instruction to start a lesson.</p>
             )}
-            {working?.done && <div className="done-badge">✓ Matched in {working.seconds}s</div>}
+            {working?.done && <div className="done-badge">✓ Fits! {working.seconds}s</div>}
           </div>
 
           {lesson && (
@@ -181,12 +194,12 @@ export default function ExpertView({ roomId }: { roomId: string }) {
         {results.length ? (
           <table>
             <thead>
-              <tr><th>#</th><th>Axis</th><th>Target</th><th>Input</th><th>Time</th></tr>
+              <tr><th>#</th><th>Part</th><th>Axis</th><th>Target</th><th>Input</th><th>Time</th></tr>
             </thead>
             <tbody>
               {results.map((r, i) => (
                 <tr key={r.lessonId}>
-                  <td>{i + 1}</td><td>{r.axis.toUpperCase()}</td><td>{r.angle}°</td><td>{r.mode}</td><td>{r.seconds}s</td>
+                  <td>{i + 1}</td><td>{PARTS[r.part].name}</td><td>{r.axis.toUpperCase()}</td><td>{r.angle}°</td><td>{r.mode}</td><td>{r.seconds}s</td>
                 </tr>
               ))}
             </tbody>

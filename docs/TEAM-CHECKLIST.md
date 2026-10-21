@@ -16,6 +16,8 @@ Open https://tilttwin.vercel.app as the expert on a laptop, and as the beginner 
 - [ ] iPhone: the "Allow motion" prompt appears and the part follows the phone.
 - [ ] Each axis turns the right way. Send Y +45 (right edge away from you), X +45 (tilt top toward you) and Z +90 (counter-clockwise).
 - [ ] ✓ appears on both screens; chime plays; Android vibrates.
+- [ ] Try each part (bracket, elbow, gear, wrench). The mating part should line up exactly when ✓ appears.
+- [ ] Hot/cold: with the iPhone silent switch **off**, ticks should speed up as you get closer. Do you feel a light tap on each tick (iOS 18+)? Note the result for write-up §9.
 - [ ] Corrections arrive on the phone; End lesson clears it.
 - [ ] If a direction is reversed on a real phone: tell whoever owns the code. The fix is one sign in `AXIS_HINTS` or `deviceQuaternion`, with a matching change in `tests/rotationMath.test.ts`.
 - [ ] If the part is too jittery or too laggy, tune `SMOOTHING` in `webapp/src/hooks/usePhoneTilt.ts`. If matching is too hard or too easy, tune `TOLERANCE` in `webapp/src/utils/rotationMath.ts`.
@@ -60,7 +62,7 @@ Film the laptop and the phone in one frame, or split screen. Add text captions.
 | 0:40–1:05 | **Hands turning the phone** (key shot); the part follows; hint + arrow + yellow gauge | "The phone *is* the part: turn it to turn the model" |
 | 1:05–1:15 | Expert's screen mirrors live; expert taps "Keep going" | "Expert watches live and corrects" |
 | 1:15–1:25 | ✓ Matched on both screens; chime | "Hold on target → confirmed on both ends" |
-| 1:25–1:45 | X −90° lesson: tilt the top away, axes overlay visible | "Any axis: tilt, turn, or rotate" |
+| 1:25–1:45 | Pipe elbow or wrench lesson, with the sound audible: ticks speed up, then it clicks into place | "Real assembly tasks; hot/cold sound guides you by ear" |
 | 1:45–2:00 | Session results table; quick fallback-to-drag mention | "Logs results for teaching and testing" |
 
 ## 6. Critique prep (Oct 22 / 26)

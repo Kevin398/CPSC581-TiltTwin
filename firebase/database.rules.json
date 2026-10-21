@@ -5,7 +5,7 @@
         ".read": "$room.matches(/^[A-Z0-9]{4,8}$/)",
         ".write": "$room.matches(/^[A-Z0-9]{4,8}$/)",
         "lesson": {
-          ".validate": "!newData.exists() || (newData.child('axis').val().matches(/^[xyz]$/) && newData.child('angle').isNumber() && newData.child('id').isNumber())"
+          ".validate": "!newData.exists() || (newData.child('axis').val().matches(/^[xyz]$/) && newData.child('angle').isNumber() && newData.child('id').isNumber() && (!newData.child('part').exists() || newData.child('part').val().matches(/^(bracket|elbow|gear|wrench)$/)))"
         },
         "message": {
           ".validate": "!newData.exists() || (newData.child('text').isString() && newData.child('text').val().length <= 120)"
