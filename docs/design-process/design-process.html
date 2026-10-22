@@ -98,7 +98,7 @@
   <div class="d"><b>③ Refine</b>5 refinement sketches; drop transparency (Fig. 2)</div>
   <div class="c"><b>④ Specify</b>Storyboard; wireframes v1 → v2 (Figs. 3–4)</div>
   <div class="e"><b>⑤ Prototype</b>v1: mouse baseline (Fig. 5); v2: phone tilt + sync (Figs. 6–8)</div>
-  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-device walkthrough; proposed A/B study (§9)</div>
+  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-device tests; 3-person pilot; proposed A/B (§9)</div>
   <div class="d"><b>⑦ Extend</b>Real assembly tasks, hot/cold sound and haptics (§7)</div>
   <div class="c"><b>⑧ Polish</b>UI/UX audit, fixed join link (§8)</div>
 </div>
@@ -111,10 +111,10 @@
   a storyboard, low-fidelity wireframes in two
   versions, an interactive high-fidelity prototype
   (React + Three.js), automated unit tests of sensor
-  mapping, a real-device functional walkthrough,
-  and a proposed within-subjects A/B usability study
-  comparing touch/mouse dragging with physical
-  phone rotation.
+  mapping, real-device tests, a three-participant
+  pilot study of the phone-tilt condition, and a
+  proposed within-subjects A/B study comparing
+  touch/mouse dragging with physical phone rotation.
 </p>
 
 <h2>2 · Divergence: ten interaction concepts</h2>
@@ -567,7 +567,7 @@ long link per lesson is awkward to send to a phone.</p>
   every smartphone and browser.
 </div>
 
-<h3>9.2 Exploratory evaluation and proposed A/B study</h3>
+<h3>9.2 Pilot study and proposed A/B comparison</h3>
 
 <p>
   <b>Completed exploratory evaluation.</b>
@@ -578,13 +578,50 @@ long link per lesson is awkward to send to a phone.</p>
   session communication and the expected physical-to-virtual rotation behaviour, and the first session
   produced a design change (below).
 
-  These were team walkthroughs rather than a controlled usability study with outside participants, so
-  the completion times above are illustrative and not a comparison between input methods.
+  These were team walkthroughs, so we followed them with a small pilot study with three participants.
 </p>
 
 <p>
-  <b>Proposed A/B usability study.</b>
-  To evaluate whether physical phone rotation helps
+  <b>Pilot study: phone-tilt condition (n = 3).</b>
+  Three participants (P1–P3) each joined a separate lesson session on their phone (codes FR2A, 89ZM and H2UM),
+  then completed three rotation tasks by physically turning the phone. A team member acted as the expert, sending
+  each task from the expert view and watching the live mirror. Tasks covered all four parts,
+  all three axes, and positive and negative angles of 45° and 90°. Completion time is recorded automatically by the
+  expert's session log, from the moment the instruction arrives to the moment the part is first held on target
+  (the 0.8 s hold is excluded).
+</p>
+
+<table>
+  <tr><th></th><th>Task 1</th><th>Task 2</th><th>Task 3</th><th>Mean</th></tr>
+  <tr><td>P1</td><td>Elbow, Y +45° · 6.5 s</td><td>Gear, Y +45° · 1.8 s</td><td>Wrench, Z −45° · 4.0 s</td><td>4.1 s</td></tr>
+  <tr><td>P2</td><td>Bracket, X +90° · 5.1 s</td><td>Gear, X +90° · 2.7 s</td><td>Gear, Z +90° · 4.0 s</td><td>3.9 s</td></tr>
+  <tr><td>P3</td><td>Bracket, Y −90° · 3.1 s</td><td>Bracket, Z −90° · 3.7 s</td><td>Elbow, Z −90° · 3.4 s</td><td>3.4 s</td></tr>
+</table>
+<p class="meta">Table 2. Pilot results, phone-tilt condition. All 9 tasks completed; mean 3.8 s (SD 1.4), median 3.7 s, range 1.8–6.5 s.</p>
+
+<div class="grid3">
+  <figure><img src="../design/screenshots/pilot-p1.png"><figcaption><b>Fig. 11a</b> P1's session log on the expert screen.</figcaption></figure>
+  <figure><img src="../design/screenshots/pilot-p2.png"><figcaption><b>Fig. 11b</b> P2's session log.</figcaption></figure>
+  <figure><img src="../design/screenshots/pilot-p3.png"><figcaption><b>Fig. 11c</b> P3's session log.</figcaption></figure>
+</div>
+
+<p><b>Findings.</b></p>
+<ul>
+  <li><b>Every task was completed</b>, on every axis, including the Y axis whose hint had been misread before it was
+  reworded (see the box below). Mean times were similar across axes (X 3.9 s, Y 3.8 s, Z 3.8 s), so no
+  axis stood out as harder.</li>
+  <li><b>Possible warm-up effect.</b> The first task was the slowest for P1 and P2 (6.5 s and 5.1 s). Their later tasks
+  averaged 3.1 s. Three participants is too few to separate learning from task difficulty.</li>
+  <li><b>Unexpected: the part keeps moving after "Fits!".</b> In all three sessions, the expert's live readout had
+  drifted far from the target <i>after</i> the success message: −119° on a −45° task, −23° on a +90° task, −37° on a −90°
+  task (visible in Fig. 11a–c). The likely cause is that participants relaxed or lowered the phone once the task
+  felt finished, and the mirror kept following the phone. For the expert this looks like an error next to a ✓. <b>Planned change:</b> freeze the
+  part at the target pose once it fits, until the next instruction arrives.</li>
+</ul>
+
+<p>
+  <b>Proposed A/B comparison (next step).</b>
+  The pilot measured only the phone-tilt condition. To evaluate whether physical phone rotation helps
   beginners understand spatial manipulation,
   we designed a within-subjects comparison between
   two input methods:
@@ -661,15 +698,10 @@ long link per lesson is awkward to send to a phone.</p>
 
 <p>
   <b>Evaluation limitations.</b>
-  A complete comparative usability dataset was
-  not available for this report. We therefore do
-  not claim that phone tilt is faster, easier,
-  or educationally superior to mouse input.
-
-  Our completed walkthrough provides evidence of
-  technical feasibility. The proposed A/B study
-  describes how future testing could evaluate
-  the learning experience more rigorously.
+  The pilot is small (n = 3), has no drag condition to compare against, and did not record wrong-direction starts,
+  ratings or preferences. It shows that beginners can complete TiltTwin's rotation tasks quickly, in about 4 s each,
+  on every axis. It does <b>not</b> show that phone tilt is faster, easier or better for learning than mouse input; that
+  is what the proposed A/B comparison would test.
 </p>
 
 
