@@ -5,60 +5,64 @@
 <meta charset="utf-8">
 <title>TiltTwin: Design Process</title>
 <style>
-  @page { size: Letter; margin: 16mm 15mm; }
-  :root { --ink: #0f172a; --muted: #475569; --line: #cbd5e1; --accent: #2563eb; --todo: #b45309; }
+  @page {
+    size: Letter;
+    margin: 22mm 22mm 20mm;
+    @bottom-center { content: counter(page); font: 9pt Charter, Georgia, serif; color: #555; }
+  }
   * { box-sizing: border-box; }
-  body { font: 10.5pt/1.5 -apple-system, 'Helvetica Neue', Arial, sans-serif; color: var(--ink); margin: 0; }
-  h1 { font-size: 26pt; margin: 0 0 4px; letter-spacing: -0.02em; }
-  h2 { font-size: 15pt; margin: 22px 0 8px; padding-top: 6px; border-top: 2px solid var(--ink); break-after: avoid; }
-  h3 { font-size: 11.5pt; margin: 14px 0 4px; break-after: avoid; }
-  p, li { margin: 0 0 6px; }
+  body { font: 10.5pt/1.45 Charter, 'Iowan Old Style', Georgia, serif; color: #111; margin: 0; }
+  h1, h2, h3, table, figcaption, .meta, .sub { font-family: 'Helvetica Neue', Arial, sans-serif; }
+  h1 { font-size: 20pt; font-weight: 700; margin: 0 0 2px; }
+  .sub { font-size: 11.5pt; margin: 0 0 10px; color: #333; }
+  .meta { font-size: 9pt; color: #444; line-height: 1.5; margin: 0 0 14px; }
+  h2 { font-size: 12.5pt; font-weight: 700; margin: 20px 0 6px; break-after: avoid; }
+  h3 { font-size: 10.5pt; font-weight: 700; margin: 12px 0 4px; break-after: avoid; }
+  p, li { margin: 0 0 6px; text-align: left; }
   ul, ol { margin: 0 0 8px; padding-left: 18px; }
-  .sub { color: var(--muted); font-size: 11pt; margin-bottom: 10px; }
-  .meta { color: var(--muted); font-size: 9.5pt; }
-  figure { margin: 10px 0 14px; break-inside: avoid; }
-  figure img { width: 100%; border: 1px solid var(--line); border-radius: 4px; display: block; }
-  figcaption { font-size: 9pt; color: var(--muted); margin-top: 4px; }
-  figcaption b { color: var(--ink); }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  b { font-weight: 700; }
+
+  /* Callouts become ordinary paragraphs with a thin rule, no colour. */
+  .box { margin: 10px 0; padding: 0 0 0 10px; border-left: 1.5px solid #999; break-inside: avoid; }
+  .summary { border: 0; padding: 8px 0; border-top: 0.75px solid #111; border-bottom: 0.75px solid #111; margin: 0 0 14px; }
+
+  figure { margin: 10px 0 12px; break-inside: avoid; }
+  figure img { width: 100%; display: block; border: 0.5px solid #bbb; }
+  figcaption { font-size: 8.5pt; line-height: 1.35; color: #333; margin-top: 4px; }
+  figcaption b { color: #111; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .grid2 figure, .grid3 figure { margin: 0; }
-  .tall img { max-height: 330px; object-fit: contain; background: #fff; }
-  table { width: 100%; border-collapse: collapse; font-size: 9.2pt; margin: 6px 0 12px; break-inside: avoid; }
-  th, td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
-  th { background: #f1f5f9; }
+  .tall img { max-height: 320px; object-fit: contain; background: #fff; }
+
+  /* Ruled tables: top, header and bottom rules only. */
+  table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 8px 0 10px; break-inside: avoid;
+          border-top: 1px solid #111; border-bottom: 1px solid #111; }
+  th, td { padding: 3px 6px; text-align: left; vertical-align: top; border: 0; }
+  th { font-weight: 700; font-size: 8.5pt; border-bottom: 0.75px solid #111; }
+  tr + tr td { border-top: 0.5px solid #ddd; }
   td.n { text-align: center; }
-  .win { background: #dcfce7; font-weight: 600; }
-  .todo { color: var(--todo); font-weight: 600; }
-  .box { border: 1px solid var(--line); border-left: 4px solid var(--accent); padding: 8px 10px; margin: 8px 0; background: #f8fafc; break-inside: avoid; }
-  .flow { display: flex; gap: 4px; align-items: stretch; margin: 8px 0 12px; font-size: 8.6pt; }
-  .flow div { flex: 1; border: 1px solid var(--line); border-radius: 6px; padding: 6px; background: #f8fafc; }
-  .flow div b { display: block; font-size: 9pt; }
-  .flow .d { border-color: #f59e0b; background: #fffbeb; }
-  .flow .c { border-color: #3b82f6; background: #eff6ff; }
-  .flow .e { border-color: #22c55e; background: #f0fdf4; }
+  .win td { font-weight: 700; }
+
+  .flow { font-size: 9pt; }
   .pb { break-before: page; }
-  code { font-size: 9pt; background: #f1f5f9; padding: 0 3px; border-radius: 3px; }
-  figure.chat { border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; background: #f8fafc; }
-  figure.chat .msg { border-left: 3px solid #5865f2; padding-left: 10px; font-size: 9.6pt; }
+  code { font: 8.5pt Menlo, monospace; }
+  figure.chat { padding: 0; }
+  figure.chat .msg { border-left: 1.5px solid #999; padding-left: 10px; font-style: italic; }
   figure.chat .msg p { margin: 0 0 4px; }
   .box table { margin: 6px 0 0; }
+  p:has(> b:only-child) { break-after: avoid; }
 </style>
 </head>
 <body>
 
 <h1>TiltTwin</h1>
-<p class="sub">Remote CAD teaching through physical motion · Design process write-up</p>
+<p class="sub">Remote CAD teaching through physical motion<br>Design process report</p>
 
-<p class="meta">
-  CPSC 581 Fall 2026 · Group Project 2: Expertise Sharing ·
-  Kevin, Ayushi, Prince ·
-  Source: github.com/Kevin398/CPSC581-TiltTwin ·
-  Live: tilttwin.vercel.app
-</p>
+<p class="meta">Kevin, Ayushi and Prince<br>CPSC 581, Fall 2026, Group Project 2: Expertise Sharing<br>Source: github.com/Kevin398/CPSC581-TiltTwin &nbsp;|&nbsp; Live system: tilttwin.vercel.app</p>
 
-<div class="box">
-  <b>In one sentence.</b>
+<div class="summary">
+  <b>Summary.</b>
   An expert on a laptop demonstrates a rotation of a CAD part.
   A beginner on a phone reproduces it by
   <i>physically turning the phone</i>, so the virtual part
@@ -77,7 +81,7 @@
   synchronous and remote, joined by a 4-letter room code.
 </div>
 
-<h2>1 · Process overview</h2>
+<h2>1. Process overview</h2>
 
 <p>
   We alternated divergent and convergent phases over five
@@ -92,15 +96,17 @@
   of the interaction during prototyping.
 </p>
 
-<div class="flow">
-  <div class="d"><b>① Diverge</b>10 interaction concepts sketched (Fig. 1)</div>
-  <div class="c"><b>② Converge</b>Compare against criteria; pivot from CADSense to TiltTwin (Table 1)</div>
-  <div class="d"><b>③ Refine</b>5 refinement sketches; drop transparency (Fig. 2)</div>
-  <div class="c"><b>④ Specify</b>Storyboard; wireframes v1 → v2 (Figs. 3–4)</div>
-  <div class="e"><b>⑤ Prototype</b>v1: mouse baseline (Fig. 5); v2: phone tilt + sync (Figs. 6–8)</div>
-  <div class="e"><b>⑥ Evaluate</b>Technical checks; real-device tests; 3-person pilot; proposed A/B (§9)</div>
-  <div class="d"><b>⑦ Extend</b>Real assembly tasks, hot/cold sound and haptics (§7)</div>
-  <div class="c"><b>⑧ Polish</b>UI/UX audit, fixed join link (§8)</div>
+<table class="flow">
+  <tr><th>Stage</th><th>Activity</th><th>Activity type</th></tr>
+  <tr><td>1. Diverge</td><td>10 interaction concepts sketched (Fig. 1)</td><td>Divergent</td></tr>
+  <tr><td>2. Converge</td><td>Compare against criteria; pivot from CADSense to TiltTwin (Table 1)</td><td>Convergent</td></tr>
+  <tr><td>3. Refine</td><td>5 refinement sketches; drop transparency (Fig. 2)</td><td>Divergent</td></tr>
+  <tr><td>4. Specify</td><td>Storyboard; wireframes v1 → v2 (Figs. 3–4)</td><td>Convergent</td></tr>
+  <tr><td>5. Prototype</td><td>v1: mouse baseline (Fig. 5); v2: phone tilt + sync (Figs. 6–8)</td><td>Building</td></tr>
+  <tr><td>6. Evaluate</td><td>Technical checks; real-device tests; 3-person pilot; proposed A/B (§9)</td><td>Evaluation</td></tr>
+  <tr><td>7. Extend</td><td>Real assembly tasks, hot/cold sound and haptics (§7)</td><td>Divergent</td></tr>
+  <tr><td>8. Polish</td><td>UI/UX audit, fixed join link (§8)</td><td>Convergent</td></tr>
+</table>
 </div>
 
 <p>
@@ -117,7 +123,7 @@
   touch/mouse dragging with physical phone rotation.
 </p>
 
-<h2>2 · Divergence: ten interaction concepts</h2>
+<h2>2. Divergence: ten interaction concepts</h2>
 
 <p>
   Each concept answers the same question in a
@@ -175,7 +181,7 @@
   problem before committing to implementation.
 </p>
 
-<h2>3 · Convergence: choosing the concept</h2>
+<h2>3. Convergence: choosing the concept</h2>
 
 <p>
   Our first direction, <b>CADSense</b>, was a
@@ -308,7 +314,7 @@
 </div>
 
 
-<h2>4 · Iteration 1: refining TiltTwin</h2>
+<h2>4. Iteration 1: refining TiltTwin</h2>
 
 <figure class="chat">
   <div class="msg"><p>i think we should keep all the ideas from the second set of sketches except for the transparency</p></div>
@@ -337,7 +343,7 @@ to convey. We replaced it with three cues that each answer one question:</p>
   and angle, rather than overlapping transparent models.
 </p>
 
-<h2>5 · Iteration 2: storyboard and wireframes</h2>
+<h2>5. Iteration 2: storyboard and wireframes</h2>
 <div class="grid2">
   <figure class="tall"><img src="../design/sketch-images/03-interaction-storyboard-p1.png"><figcaption><b>Fig. 3a</b> Storyboard 1–4. The expert sends a remote instruction (1–2); the beginner calibrates (2); the beginner rotates the phone and the part follows (3–4).</figcaption></figure>
   <figure><img src="../design/sketch-images/03-interaction-storyboard-p2.png"><figcaption><b>Fig. 3b</b> Storyboard 5. Both screens show the completion check once the beginner matches the expert's rotation.</figcaption></figure>
@@ -349,7 +355,7 @@ the progress indicator changed from a vague "show progress" button to a <b>live 
 Showing "30°/45°" to both gives the expert a precise thing to correct ("15° more") and gives the novice an exact goal. v2 also makes
 <b>physically rotating the phone</b> the explicit input, replacing on-screen controls.</p>
 
-<h2>6 · Iteration 3: prototypes</h2>
+<h2>6. Iteration 3: prototypes</h2>
 <h3>Prototype v1: mouse baseline (CADSense-style, "Version A")</h3>
 <figure><img src="../design/screenshots/v1-expert-baseline.png" style="max-height:250px;object-fit:contain;object-position:left"><figcaption><b>Fig. 5</b> v1 expert workspace. Free 2-axis rotation by mouse drag or an 8-way arrow pad, plus "Save Angle". The beginner pressed "Check Angle" for feedback. Both roles ran in one browser tab.</figcaption></figure>
 <p><b>What v1 taught us.</b> Free 2-axis rotation made instructions hard to express ("rotate it like… this"). Feedback only came when the beginner pressed a button.
@@ -423,7 +429,7 @@ Running in one tab meant there was no remote collaboration yet. These became the
   <tr><td><b>Firebase Realtime Database</b> rooms with a 4-letter code.</td><td>Sub-second sync without our own server. Codes avoid confusable characters (no 0/O, 1/I).</td><td>WebRTC peer-to-peer (fails behind some NATs; risky for the live demo).</td></tr>
 </table>
 
-<h2>7 · Iteration 4: from "match an angle" to "make it fit"</h2>
+<h2>7. Iteration 4: from "match an angle" to "make it fit"</h2>
 <p>
   After implementing the core phone-rotation interaction,
   we explored how to make TiltTwin
@@ -456,7 +462,7 @@ Running in one tab meant there was no remote collaboration yet. These became the
   <li><b>Hot/cold guidance.</b> While a lesson is active, the phone ticks. The ticks speed up (from ~1 to ~9 per second) and rise in pitch as the part gets
   closer, and stop when it fits. On Android each tick is also a vibration pulse. On iPhone we use the light haptic that iOS 18+ gives when a native
   switch control is toggled, because Safari has no vibration API. That trick is undocumented, so <b>sound is the primary fallback where audio playback is permitted</b>. The beginner can
-  find the target by ear and by feel while their eyes are on the part. A 🔊 button turns it off.</li>
+  find the target by ear and by feel while their eyes are on the part. A sound button turns it off.</li>
   <li>
   <b>Expert side.</b>
   The expert chooses the part as well as the axis
@@ -470,7 +476,7 @@ Running in one tab meant there was no remote collaboration yet. These became the
 </li>
 </ul>
 
-<h2>8 · Iteration 5: usability and visual audit</h2>
+<h2>8. Iteration 5: usability and visual audit</h2>
 <p>Before the critique we audited the whole interface against a professional UI/UX checklist (the <i>UI/UX Pro Max</i>
 guideline database: accessibility, touch, typography, motion and forms). We also simplified how beginners join, after noticing that a new
 long link per lesson is awkward to send to a phone.</p>
@@ -490,7 +496,7 @@ long link per lesson is awkward to send to a phone.</p>
   <figure><img src="../design/screenshots/v4-join.png" style="max-height:330px;object-fit:contain;background:#070b14"><figcaption><b>Fig. 10b</b> The fixed join page on a phone. Typography is IBM Plex Sans with JetBrains Mono for codes and angles.</figcaption></figure>
 </div>
 
-<h2>9 · Evaluation</h2>
+<h2>9. Evaluation</h2>
 
 <h3>9.1 Technical verification (completed)</h3>
 
@@ -593,9 +599,9 @@ long link per lesson is awkward to send to a phone.</p>
 
 <table>
   <tr><th></th><th>Task 1</th><th>Task 2</th><th>Task 3</th><th>Mean</th></tr>
-  <tr><td>P1</td><td>Elbow, Y +45° · 6.5 s</td><td>Gear, Y +45° · 1.8 s</td><td>Wrench, Z −45° · 4.0 s</td><td>4.1 s</td></tr>
-  <tr><td>P2</td><td>Bracket, X +90° · 5.1 s</td><td>Gear, X +90° · 2.7 s</td><td>Gear, Z +90° · 4.0 s</td><td>3.9 s</td></tr>
-  <tr><td>P3</td><td>Bracket, Y −90° · 3.1 s</td><td>Bracket, Z −90° · 3.7 s</td><td>Elbow, Z −90° · 3.4 s</td><td>3.4 s</td></tr>
+  <tr><td>P1</td><td>Elbow, Y +45°: 6.5 s</td><td>Gear, Y +45°: 1.8 s</td><td>Wrench, Z −45°: 4.0 s</td><td>4.1 s</td></tr>
+  <tr><td>P2</td><td>Bracket, X +90°: 5.1 s</td><td>Gear, X +90°: 2.7 s</td><td>Gear, Z +90°: 4.0 s</td><td>3.9 s</td></tr>
+  <tr><td>P3</td><td>Bracket, Y −90°: 3.1 s</td><td>Bracket, Z −90°: 3.7 s</td><td>Elbow, Z −90°: 3.4 s</td><td>3.4 s</td></tr>
 </table>
 <p class="meta">Table 2. Pilot results, phone-tilt condition. All 9 tasks completed; mean 3.8 s (SD 1.4), median 3.7 s, range 1.8–6.5 s.</p>
 
@@ -708,7 +714,7 @@ long link per lesson is awkward to send to a phone.</p>
 </p>
 
 
-<h2>10 · Known limitations and incomplete functionality</h2>
+<h2>10. Known limitations and incomplete functionality</h2>
 <ul>
   <li><b>One axis per lesson</b> (by design). Compound rotations would be a sequence of lessons.</li>
   <li><b>Rotation only</b>: no extrusion or scaling, and no import of real Blender or Fusion files. There are four predefined parts (bracket, pipe elbow, gear, wrench).</li>
@@ -721,7 +727,7 @@ long link per lesson is awkward to send to a phone.</p>
 </ul>
 
 
-<h2>11 · Credits and AI use</h2>
+<h2>11. Credits and AI use</h2>
 
 <p>
   <b>Team contributions.</b>
@@ -755,7 +761,7 @@ long link per lesson is awkward to send to a phone.</p>
   and drafting the design-process document.
 </p>
 
-<h3>ChatGPT assistance — Project planning and GitHub issues</h3>
+<h3>ChatGPT assistance: Project planning and GitHub issues</h3>
 
 <p>
   ChatGPT (OpenAI) was used to help organize the
@@ -804,7 +810,7 @@ long link per lesson is awkward to send to a phone.</p>
 </p>
 
 
-<h3>ChatGPT assistance — Final design-process deliverable</h3>
+<h3>ChatGPT assistance: Final design-process deliverable</h3>
 
 <p>
   ChatGPT (OpenAI) was also used to assist with reviewing,
