@@ -39,6 +39,10 @@
   .flow .e { border-color: #22c55e; background: #f0fdf4; }
   .pb { break-before: page; }
   code { font-size: 9pt; background: #f1f5f9; padding: 0 3px; border-radius: 3px; }
+  figure.chat { border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; background: #f8fafc; }
+  figure.chat .msg { border-left: 3px solid #5865f2; padding-left: 10px; font-size: 9.6pt; }
+  figure.chat .msg p { margin: 0 0 4px; }
+  .box table { margin: 6px 0 0; }
 </style>
 </head>
 <body>
@@ -190,6 +194,18 @@
   against criteria taken directly from the brief.
 </p>
 
+<figure class="chat">
+  <div class="msg">
+    <p>I think we could improve the original CADSense idea by making it more focused on embodied interaction, since that's one of the biggest grading criteria.</p>
+    <p>Instead of having beginners use a mouse to follow arrows and match a target 3D model, we could make a version called TiltTwin, where beginners physically rotate their phone to manipulate a 3D object. […]</p>
+    <p>It could also simplify development since we'd focus on making one rotation interaction really polished instead of implementing extrusion, rotation, and scaling.</p>
+    <p>The main risk is getting phone motion sensors working reliably, so we'd want to test that first.</p>
+  </div>
+  <figcaption><b>Fig. 1d</b> Team Discord, the pivot proposal (excerpt, transcribed). It names the
+  two convergence criteria we then scored in Table 1 (embodiment and a polished single interaction) and the main
+  technical risk (sensor reliability), which we tested first.</figcaption>
+</figure>
+
 <table>
   <tr>
     <th>Concept</th>
@@ -293,6 +309,12 @@
 
 
 <h2>4 · Iteration 1: refining TiltTwin</h2>
+
+<figure class="chat">
+  <div class="msg"><p>i think we should keep all the ideas from the second set of sketches except for the transparency</p></div>
+  <figcaption><b>Fig. 2c</b> Team Discord, the convergence decision on the refinement sketches in Fig. 2a–b (transcribed).
+  The reasoning behind dropping transparency is set out below.</figcaption>
+</figure>
 <div class="grid2">
   <figure><img src="../design/sketch-images/02-tilttwin-refinements-p1.png"><figcaption><b>Fig. 2a</b> (1) basic physical rotation; (2) a transparent "ghost" of the target over the part; (3) tap to show axes and direction arrows that rotate with the object.</figcaption></figure>
   <figure><img src="../design/sketch-images/02-tilttwin-refinements-p2.png"><figcaption><b>Fig. 2b</b> (4) ✓ feedback on reaching the correct orientation; (5) synchronize the expert's and beginner's actions.</figcaption></figure>
@@ -506,6 +528,16 @@ long link per lesson is awkward to send to a phone.</p>
   </li>
 
   <li>
+    <b>Real-iPhone testing — October 20, 2026.</b>
+    Prince ran the deployed app with the expert view on a second device and an iPhone as the beginner, using phone
+    motion. The expert's session log recorded <b>X +90° completed in 8.1 s</b> and <b>Z +45° in 4.2 s</b>.
+    On the <b>Y</b> lesson, however, Prince moved the phone the opposite way from what the hint intended (see the
+    test-driven change in §9.2). After the fix, a re-test confirmed that <b>X, Y and Z all moved in the expected
+    direction</b>. A second session that day tested the four parts and the hot/cold guidance on the iPhone: each part
+    fitted its mating part when matched, and the hot/cold sound worked.
+  </li>
+
+  <li>
     <b>Real-device testing — October 21, 2026.</b>
     Kevin tested the deployed application with an
     iPad acting as the expert and a smartphone acting
@@ -542,14 +574,12 @@ long link per lesson is awkward to send to a phone.</p>
   Our initial hands-on evaluation focused on whether
   TiltTwin's central interaction could be performed
   successfully using two separate devices.
-  The iPad and smartphone Safari test confirmed
-  successful session communication and the expected
-  physical-to-virtual rotation behaviour.
+  Two real-device sessions (expert device + iPhone on Oct 20; iPad + smartphone in Safari on Oct 21) confirmed
+  session communication and the expected physical-to-virtual rotation behaviour, and the first session
+  produced a design change (below).
 
-  This was a functional walkthrough rather than
-  a controlled usability study. No quantitative
-  completion-time or user-preference dataset was
-  collected during this walkthrough.
+  These were team walkthroughs rather than a controlled usability study with outside participants, so
+  the completion times above are illustrative and not a comparison between input methods.
 </p>
 
 <p>
@@ -616,19 +646,18 @@ long link per lesson is awkward to send to a phone.</p>
   </tr>
 </table>
 
-<p>
-  <b>Earlier design refinement: Y-axis guidance.</b>
-  During development, the Y-axis instruction was
-  changed from the ambiguous phrase "Turn the phone
-  to the left" to the more explicit direction
-  "Swing the right edge of the phone away from you."
-
-  The original phrase could be interpreted in
-  multiple ways, whereas the revised instruction
-  refers to a specific physical edge of the phone.
-  The final Safari walkthrough reported movement
-  directions behaving as expected.
-</p>
+<div class="box">
+  <b>Test-driven change: the Y-axis hint.</b> This is the clearest case of real-device testing changing the design.
+  <table>
+    <tr><th>Step</th><th>What happened</th></tr>
+    <tr><td>Observed</td><td>On the iPhone, X and Z lessons were completed by following the hints (8.1 s, 4.2 s), but on Y the tester moved the phone the <b>opposite</b> way to the one intended.</td></tr>
+    <tr><td>Diagnosed</td><td>We first suspected the sensor maths. We simulated the phone held in portrait and in both landscape directions, made each hint's motion, and checked the sign on every axis. The maths was correct in all three holds (now automated tests). The problem was the wording: <i>"Turn the phone to the left"</i> can mean the phone turning left (its screen ends up facing right) or the screen turning to face left. The X and Z hints ("tilt the top toward you", "counter-clockwise") can only be read one way, which explains why only Y failed.</td></tr>
+    <tr><td>Changed</td><td>The hint now names a specific edge of the phone: <i>"Swing the right edge of the phone away from you"</i> (and "toward you" for negative angles).</td></tr>
+    <tr><td>Re-tested</td><td>Same iPhone, same day: X, Y and Z all moved in the expected direction.</td></tr>
+  </table>
+  <p style="margin:6px 0 0">Lesson: for embodied instructions, describe the motion by a physical landmark on the device, not by a
+  direction word that depends on the reader's frame of reference.</p>
+</div>
 
 <p>
   <b>Evaluation limitations.</b>
