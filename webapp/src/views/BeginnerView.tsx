@@ -52,9 +52,11 @@ export default function BeginnerView({ roomId }: { roomId: string }) {
   }, [lesson?.id])
 
   const usingTilt = mode === 'tilt' && tilt.status === 'on'
-  const angle = Math.round(usingTilt ? tilt.angle : dragAngle)
   const target = lesson?.angle ?? null
   const done = lesson !== null && finished?.lessonId === lesson.id
+  // Once it fits, the part stays snapped to the target until the next lesson.
+  // Pilot study: beginners relaxed the phone after "Fits!" and the mirror drifted.
+  const angle = done && target !== null ? target : Math.round(usingTilt ? tilt.angle : dragAngle)
   const seconds = done ? finished.seconds : 0
   const remaining = target === null ? 0 : wrapDegrees(target - angle)
   const onTarget = target !== null && Math.abs(remaining) <= TOLERANCE
